@@ -207,10 +207,6 @@ class riskInfoAnalysis(object):
 
 
 
-
-
-
-
     def run(self):
         self.KnowledgePledge()
 
