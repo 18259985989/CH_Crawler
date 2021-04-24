@@ -225,13 +225,6 @@ class getAiqicha(object):
 
 
 
-
-
-
-
-
-
-
 if __name__ == '__main__':
     a = getAiqicha(comName='福建诚华信用管理有限公司')
     a.run()
