@@ -6,6 +6,10 @@
 专从列表中遍历取出数据
 """
 
+from CH_DB.dataBaseOperation import DBOperation
+
+DB = DBOperation()
+
 def getlawWenshu(dataList):
     """
     获取裁判文书中的信息
@@ -20,6 +24,8 @@ def getlawWenshu(dataList):
         wenshuName = i.get("wenshuName")  # 文书名称
         wenshuId = i.get("wenshuId")  # 文书ID
         detailUrl = i.get("detailUrl")  # 文书详情URL
+        dataReady = []
+        DB.insertLawWenshu(dataReady)
 
 def getpenalties(dataList):
     """
@@ -222,7 +228,6 @@ def getworkright(dataList):
         registrationDate = i.get("registrationDate")#登记日期
         publicationDate = i.get("publicationDate")#首次发表日期
 
-
 def getbrandProject(dataList):
     """
     企业品牌项目
@@ -335,7 +340,6 @@ def getquality(dataList):
         productDate = i.get("detail").get("productDate")#生产日期/批号
         manufacturer = i.get("detail").get("manufacturer")#生产企业
 
-
 def getdoublecheckup(dataList):
     """
     双随机检查
@@ -371,5 +375,4 @@ def gettenderbidding(dataList):
         for j in winnerList:
             if isinstance(j,dict):
                 winner = winner + j.get("name") + " ; "
-
 

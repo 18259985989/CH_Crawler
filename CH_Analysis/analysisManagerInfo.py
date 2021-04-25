@@ -70,13 +70,14 @@ class managerInfoAnalysis(object):
             "license":getlicense,#行政许可
             "importexport":getimportexport,#进出口信用
             "getquality":getquality,#质量监督检查
-            "getdoublecheckup":getdoublecheckup,#质量监督检查
-            "tenderbidding":gettenderbidding,#质量监督检查
+            "getdoublecheckup":getdoublecheckup,#双随机检查
+            "tenderbidding":gettenderbidding,#招投标
         }
         urlDict = {
             "license":"https://aiqicha.baidu.com/detail/licenseAjax",
             "importexport":"",
             "getquality":"https://aiqicha.baidu.com/detail/qualityAjax",
+            "getdoublecheckup":"",
             "tenderbidding":"https://aiqicha.baidu.com/c/tenderbiddingAjax",
         }
         for i in funcDict.keys():

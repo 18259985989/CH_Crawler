@@ -3,6 +3,10 @@
 # @Author :  Meow_J
 
 import pymysql
+from datetime import datetime
+from CH_DB.dataBaseOperation import DBOperation
+
+DB = DBOperation()
 
 """
 爱企查中基本数据清洗并入库
@@ -22,22 +26,29 @@ def getBaseData(Json):
     entType = basicData.get("entType") #企业类型
     regNo = basicData.get("regNo") #工商注册号
     orgNo = basicData.get("orgNo") #组织机构代码
-    taxNo = basicData.get("taxNo") #税号
+    # taxNo = basicData.get("taxNo") #税号
     scope = basicData.get("scope") #经营范围
     regAddr = basicData.get("regAddr") #公司地址
     legalPerson = basicData.get("legalPerson") #法人代表
-    startDate = basicData.get("startDate") #成立时间
-    openTime = basicData.get("openTime") #营业期限
-    annualDate = basicData.get("annualDate") #核准日期
+    startDate = datetime.strptime(basicData.get("startDate"),"%Y-%m-%d") #成立时间
+    annualDate = datetime.strptime(basicData.get("annualDate"),"%Y-%m-%d") #核准日期
     regCapital = basicData.get("regCapital") #注册资本
     industry = basicData.get("industry") #所属行业
     telephone = basicData.get("telephone") #公司电话
-    district = basicData.get("district") #行政区划
-    authority = basicData.get("authority") #等级机关
+    # district = basicData.get("district") #行政区划
+    authority = basicData.get("authority") #登记机关
     describe = basicData.get("describe") #企业简介
     email = basicData.get("email") #企业邮箱
+    opFrom = ""
+    opTo = ""
+    openTime = basicData.get("openTime").splite("至")  # 营业期限
+    if len(openTime) == 2:
+        opFrom = datetime.strptime(openTime[0],"%Y-%m-%d")
+        opTo = datetime.strptime(openTime[1],"%Y-%m-%d")
 
-    ready = []
+    dataReady = [entName,openStatus,entType,regNo,orgNo,scope,regAddr,legalPerson,startDate,annualDate,
+                 regCapital,industry,telephone,authority,describe,email,opFrom,opTo]
+    DB.insertBaseInfo(dataReady)
 
 def ChangeRecord(Json):
     """
@@ -135,4 +146,5 @@ def Hold(Json):
     dataList = holdsData.get("list")  # 数据列表
     for i in dataList:
         pass
+
 
