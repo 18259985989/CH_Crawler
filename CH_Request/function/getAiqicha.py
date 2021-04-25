@@ -5,7 +5,7 @@
 """
 爱企查爬虫
 """
-
+import uuid
 import re
 import os
 import json
@@ -34,6 +34,7 @@ from CH_Request.util.reqAiqicha import reqContent
 class getAiqicha(object):
 
     def __init__(self,comName):
+        self.batchId = str(uuid.uuid4()).replace("-","") #生成唯一性Id
         self.proxy = Proxy()
         self.ua = UserAgent()
         self.comName = comName

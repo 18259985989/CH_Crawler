@@ -7,13 +7,15 @@
 """
 
 from fake_useragent import UserAgent
-from CH_Analysis.getDataFromJson import getlawWenshu
+from CH_Analysis.getDataFromJson import getlawWenshu, getdiscredit, getabnormal, getrestrictedConsumer, \
+    getchattelmortgage, getuntax, gettaxviolation, getstockFreeze, getenvpunishment, getterminationcase
 from CH_Analysis.getDataFromJson import getequitypledge
 from CH_Analysis.getDataFromJson import getpenalties
 from CH_Analysis.getDataFromJson import getopennotice
 from CH_Analysis.getDataFromJson import getjudicialauction
 from CH_Analysis.getDataFromJson import getCourtNoticeData
 from CH_Analysis.getDataFromJson import getfilinginfo
+from CH_Analysis.getDataFromJson import getillegal
 from CH_Request.util.reqAiqicha import reqContent
 
 class riskInfoAnalysis(object):
@@ -82,12 +84,18 @@ class riskInfoAnalysis(object):
             "opennotice":getopennotice, #开庭公告
             "lawWenshu":getlawWenshu, #裁判文书
             "penalties":getpenalties, #行政处罚
-            "discredit":None, #失信被执行人
-            "chattelmortgage":None, #动产抵押
-            "abnormal":None, #经营异常
-            "KnowledgePledge":None, #知识产权出质
+            "discredit":getdiscredit, #失信被执行人
+            "chattelmortgage":getchattelmortgage, #动产抵押
+            "abnormal":getabnormal, #经营异常
             "filinginfo":getfilinginfo, #立案信息
             "equitypledge":getequitypledge, #股权出质
+            "illegal":getillegal, #严重违法
+            "restrictedConsumer":getrestrictedConsumer, #严重违法
+            "untax":getuntax, #税务非正常
+            "taxviolation":gettaxviolation, #税务违法
+            "stockFreeze":getstockFreeze, #股权冻结
+            "envpunishment":getenvpunishment, #环境处罚
+            "terminationcase":getterminationcase, #终本案件
         }
         urlDict = {
             "getCourtNoticeData":"https://aiqicha.baidu.com/c/courtnoticeajax",
@@ -95,12 +103,15 @@ class riskInfoAnalysis(object):
             "opennotice":"https://aiqicha.baidu.com/c/opennoticeajax",
             "lawWenshu":"https://aiqicha.baidu.com/detail/lawWenshuAjax",
             "penalties":"https://aiqicha.baidu.com/detail/penaltiesAjax",
-            "discredit":"",
+            "discredit":"https://aiqicha.baidu.com/discredit/dishonestlistAjax",
             "chattelmortgage":"",
             "abnormal":"",
             "KnowledgePledge":"",
             "filinginfo":"https://aiqicha.baidu.com/c/filinginfoAjax",
             "equitypledge":"https://aiqicha.baidu.com/c/equitypledgeAjax",
+            "illegal":"",
+            "restrictedConsumer":"https://aiqicha.baidu.com/detail/restrictedConsumerAjax",
+            "envpunishment":"https://aiqicha.baidu.com/c/envpunishmentAjax",
         }
         for i in funcDict.keys():
             func = funcDict.get(i)

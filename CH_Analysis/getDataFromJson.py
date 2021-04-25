@@ -10,6 +10,170 @@ from CH_DB.dataBaseOperation import DBOperation
 
 DB = DBOperation()
 
+def getrandominspection(dataList):
+    """
+    抽查检查
+    :param dataList:
+    :return:
+    """
+    for i in dataList:
+        inspectionAuthority = i.get("inspectionAuthority")#检查机构
+        inspectionResult = i.get("inspectionResult")#结果
+        inspectionType = i.get("inspectionType")#类型
+        inspectionDate = i.get("inspectionDate")#日期
+
+def getfoodquality(dataList):
+    """
+    食品抽查检查
+    :param dataList:
+    :return:
+    """
+    for i in dataList:
+        # 还有部分内容未提取
+        productName = i.get("productName")#抽查产品
+        notificationDate = i.get("notificationDate")#通报时间
+        notificationNum = i.get("notificationNum")#通报文号
+        result = i.get("result")#抽查结果
+
+def getchattelmortgage(dataList):
+    """
+    动产抵押
+    :param dataList:
+    :return:
+    """
+    for i in dataList:
+        detailUrl = i.get("detailUrl")#详情Url
+        issueDate = i.get("issueDate") #登记日期
+        guaranteeClaimAmount = i.get("guaranteeClaimAmount") #被担保债权数额
+        issueAuthority = i.get("issueAuthority") #登记机关
+        guaranteeClaimStatusCode = i.get("guaranteeClaimStatusCode") #状态
+
+def getstockFreeze(dataList):
+    """
+    股权冻结
+    :param dataList:
+    :return:
+    """
+    for i in dataList:
+        beExecutedPerson = i.get("beExecutedPerson")#被执行人
+        equalityAmount = i.get("equalityAmount")#股权数额
+        notificationNumber = i.get("notificationNumber")#执行通知文书号
+        type = i.get("type")#类型
+        status = i.get("status")#状态
+
+def getenvpunishment(dataList):
+    """
+    环境处罚
+    :param dataList:
+    :return:
+    """
+    for i in dataList:
+        documentNo = i.get("documentNo")#决定文书号
+        illegalType = i.get("illegalType")#违法类型
+        punishmentType = i.get("punishmentType")#处罚类别
+        punishmentDept = i.get("punishmentDept")#处罚单位
+        punishmentDate = i.get("punishmentDate")#处罚日期
+        punishmentBasis = i.get("punishmentBasis")#处罚依据
+        punishmentResult = i.get("punishmentResult")#处罚结果
+
+def getterminationcase(dataList):
+    """
+    终本案件
+    :param dataList:
+    :return:
+    """
+    for i in dataList:
+        filingDate = i.get("filingDate")#立案日期
+        caseNoTerminal = i.get("caseNoTerminal")#案号
+        amount = i.get("amount")#执行标的
+        court = i.get("court")#执行法院
+        terminateDate = i.get("terminateDate")#终本日期
+        detailUrl = i.get("detailUrl")#Url
+
+def gettaxviolation(dataList):
+    """
+    税务违法
+    :param dataList:
+    :return:
+    """
+    for i in dataList:
+        name = i.get("name")#纳税人名称
+        regCode = i.get("regCode")#注册号
+        penaltyType = i.get("penaltyType")#案件性质
+        reportDate = i.get("reportDate")#案件上报日期
+        detailUrl = i.get("detailUrl")#Url
+
+def getuntax(datList):
+    """
+    税务非正常
+    :param datList:
+    :return:
+    """
+    for i in datList:
+        taxNum = i.get("taxNum")#纳税人识别号
+        name = i.get("name")#公司名
+        area = i.get("area")#地址
+        overdueAmount = i.get("overdueAmount")#欠税金额
+        judgeDate = i.get("judgeDate")#认定日期
+        overdueType = i.get("overdueType")#欠税税务种类
+        state = i.get("state")#纳税人状态
+
+def getrestrictedConsumer(dataList):
+    """
+    限制高消费
+    :param dataList:
+    :return:
+    """
+    for i in dataList:
+        releaseDate = i.get("releaseDate")#发布日期
+        personName = i.get("personName")#被限制人姓名
+        companyName = i.get("companyName")#关联公司名
+        execComapnyName = i.get("execComapnyName")#申请执行人
+        court = i.get("court")#执行法院
+
+def getabnormal(dataList):
+    """
+    经营异常
+    :param dataList:
+    :return:
+    """
+    for i in dataList:
+        enterDate = i.get("enterDate")#列入日期
+        enterReason = i.get("enterReason")#列入原因
+        leaveDate = i.get("leaveDate")#移除日期
+        leaveReason = i.get("leaveReason")#移除原因
+        authority = i.get("authority")#列入决定机关
+        leaveAuthority = i.get("leaveAuthority")#移出决定机关
+
+def getdiscredit(dataList):
+    """
+    失信被执行人
+    :param dataList:
+    :return:
+    """
+    for i in dataList:
+        publishDate = i.get("publishDate")#发布日期
+        verdictDate = i.get("verdictDate")#立案日期
+        verdictCaseNumber = i.get("verdictCaseNumber")#案号
+        implementCourtName = i.get("implementCourtName")#执行法院
+        performStatus = i.get("performStatus")#履行情况
+        implementCaseNumber = i.get("implementCaseNumber")#执行依据文号
+        implementCaseNumber = i.get("implementCaseNumber")#执行依据文号
+
+def getillegal(dataList):
+    """
+    严重违法
+    :param dataList:
+    :return:
+    """
+    for i in dataList:
+        enterDate = i.get("enterDate")#列入日期
+        enterReason = i.get("enterReason")#列入原因
+        authority = i.get("authority")#决定机关
+        leaveDate = i.get("leaveDate")#移出日期
+        leaveReason = i.get("leaveReason")#移出原因
+        leaveAuthority = i.get("leaveAuthority")#移出机关
+
 def getlawWenshu(dataList):
     """
     获取裁判文书中的信息

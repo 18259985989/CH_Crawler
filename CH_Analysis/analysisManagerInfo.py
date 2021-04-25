@@ -8,7 +8,8 @@
 
 from fake_useragent import UserAgent
 from CH_Request.util.reqAiqicha import reqContent
-from CH_Analysis.getDataFromJson import getlicense, getimportexport, getquality, getdoublecheckup, gettenderbidding
+from CH_Analysis.getDataFromJson import getlicense, getimportexport, getquality, getdoublecheckup, gettenderbidding, \
+    getfoodquality, getrandominspection
 
 
 class managerInfoAnalysis(object):
@@ -71,7 +72,9 @@ class managerInfoAnalysis(object):
             "importexport":getimportexport,#进出口信用
             "getquality":getquality,#质量监督检查
             "getdoublecheckup":getdoublecheckup,#双随机检查
+            "randominspection":getrandominspection,#抽查检查
             "tenderbidding":gettenderbidding,#招投标
+            "foodquality":getfoodquality,#食品抽查检查
         }
         urlDict = {
             "license":"https://aiqicha.baidu.com/detail/licenseAjax",
@@ -79,6 +82,7 @@ class managerInfoAnalysis(object):
             "getquality":"https://aiqicha.baidu.com/detail/qualityAjax",
             "getdoublecheckup":"",
             "tenderbidding":"https://aiqicha.baidu.com/c/tenderbiddingAjax",
+            "foodquality":"https://aiqicha.baidu.com/detail/foodqualityAjax",
         }
         for i in funcDict.keys():
             func = funcDict.get(i)
