@@ -3,14 +3,17 @@
 # @Author :  Meow_J
 
 """
-爱企查中风险数据清洗
+重点关注
 """
 
 from fake_useragent import UserAgent
 from CH_Analysis.getDataFromJson import getlawWenshu
+from CH_Analysis.getDataFromJson import getequitypledge
 from CH_Analysis.getDataFromJson import getpenalties
 from CH_Analysis.getDataFromJson import getopennotice
 from CH_Analysis.getDataFromJson import getjudicialauction
+from CH_Analysis.getDataFromJson import getCourtNoticeData
+from CH_Analysis.getDataFromJson import getfilinginfo
 from CH_Request.util.reqAiqicha import reqContent
 
 class riskInfoAnalysis(object):
@@ -42,182 +45,67 @@ class riskInfoAnalysis(object):
         }
         self.run()
 
-
-    def KnowledgePledge(self):
+    def getAllContent(self,key,url,func):
         """
-        知识产权出质
+        通用获取所有类型数据方法
+        :param url:
         :return:
         """
-        data = self.Json.get("KnowledgePledge")
-        total = data.get("total")
-        dataList = data.get("list")
-        if total != 0 and total != "":
-            pass
-
-    def abnormal(self):
-        """
-        经营异常
-        :return:
-        """
-        data = self.Json.get("abnormal")
-        total = data.get("total")
-        dataList = data.get("list")
-        if total != 0 and total != "":
-            pass
-
-    def chattelmortgage(self):
-        """
-        动产抵押
-        :return:
-        """
-        data = self.Json.get("chattelmortgage")
-        total = data.get("total")
-        dataList = data.get("list")
-        if total != 0 and total != "":
-            pass
-
-    def discredit(self):
-        """
-        失信被执行人
-        :return:
-        """
-        data = self.Json.get("discredit")
-        total = data.get("total")
-        dataList = data.get("list")
-        if total != 0 and total != "":
-            pass
-
-    def penalties(self):
-        """
-        行政处罚
-        :return:
-        """
-        url = "https://aiqicha.baidu.com/detail/penaltiesAjax"
-        data = self.Json.get("penalties")
+        data = self.Json.get(key)
         total = data.get("total")
         if total != 0 and total != "":
-            if total<10:
+            if total <= 10:
+                # 总条数小于10直接获取  （详情内容需要根据Url再去请求获取）
                 dataList = data.get("list")
-                getpenalties(dataList=dataList)
-            elif total >10 and total <100:
+                func(dataList=dataList)
+            elif total > 10 and total <= 100:
                 resp = reqContent(url=url, headers=self.headers, payload=self.payload).reqJson()
                 if resp != self.flag:
-                    Message = resp.get("data")
-                    MessageList = Message.get("list")
-                    getpenalties(dataList=MessageList)
+                    data = resp.get("data")
+                    dataList = data.get("list")
+                    func(dataList=dataList)
             else:
                 page = int(total / 100) + 1
-                for i in range(1,page):
+                for i in range(1, page+1):
                     self.payload.update({"p": i})
                     resp = reqContent(url=url, headers=self.headers, payload=self.payload).reqJson()
                     if resp != self.flag:
-                        Message = resp.get("data")
-                        MessageList = Message.get("list")
-                        getpenalties(dataList=MessageList)
-                self.payload.update({"p": 1})  # 初始化payload
-
-    def lawWenshu(self):
-        """
-        裁判文书
-        :return:
-        """
-        url = "https://aiqicha.baidu.com/detail/lawWenshuAjax"
-        data = self.Json.get("lawWenshu")
-        total = data.get("total")
-        if total != 0 and total != "":
-            if total < 10:
-                #总条数小于10直接获取  （详情内容需要根据Url再去请求获取）
-                dataList = data.get("list")
-                getlawWenshu(dataList=dataList)
-            elif total >10 and total <100:
-                resp = reqContent(url=url, headers=self.headers, payload=self.payload).reqJson()
-                if resp != self.flag:
-                    data = resp.get("data")
-                    dataList = data.get("list")
-                    getlawWenshu(dataList=dataList)
-            else:
-                #总条数大于10条存在分页
-                page = int(total/100)+1
-                for i in range(1,page):
-                    self.payload.update({"p":i})
-                    resp = reqContent(url=url,headers=self.headers,payload=self.payload).reqJson()
-                    if resp != self.flag:
                         data = resp.get("data")
                         dataList = data.get("list")
-                        getlawWenshu(dataList=dataList)
-                self.payload.update({"p":1})  #初始化payload
-
-    def opennotice(self):
-        """
-        开庭公告
-        :return:
-        """
-        url = "https://aiqicha.baidu.com/c/opennoticeajax"
-        data = self.Json.get("opennotice")
-        total = data.get("total")
-        if total != 0 and total != "":
-            if total < 10:
-                #总条数小于10直接获取  （详情内容需要根据Url再去请求获取）
-                dataList = data.get("list")
-                getopennotice(dataList=dataList)
-            elif total >10 and total <100:
-                resp = reqContent(url=url, headers=self.headers, payload=self.payload).reqJson()
-                if resp != self.flag:
-                    data = resp.get("data")
-                    dataList = data.get("list")
-                    getopennotice(dataList=dataList)
-            else:
-                page = int(total/100)+1
-                for i in range(1,page):
-                    self.payload.update({"p":i})
-                    resp = reqContent(url=url,headers=self.headers,payload=self.payload).reqJson()
-                    if resp != self.flag:
-                        data = resp.get("data")
-                        dataList = data.get("list")
-                        getopennotice(dataList=dataList)
-                self.payload.update({"p":1})  #初始化payload
-
-    def judicialauction(self):
-        """
-        司法拍卖
-        :return:
-        """
-        url = ""
-        data = self.Json.get("judicialauction")
-        total = data.get("total")
-        if total != 0 and total != "":
-            if total < 10:
-                # 总条数小于10直接获取  （详情内容需要根据Url再去请求获取）
-                dataList = data.get("list")
-                getjudicialauction(dataList=dataList)
-            elif total > 10 and total < 100:
-                pass
-            else:
-                pass
-
-    def getCourtNoticeData(self):
-        """
-        法院公告
-        :return:
-        """
-        url = "https://aiqicha.baidu.com/c/courtnoticeajax"
-        data = self.Json.get("getCourtNoticeData")
-        total = data.get("total")
-
-
-
+                        func(dataList=dataList)
+                self.payload.update({"p": 1})
 
     def run(self):
-        self.KnowledgePledge()
-
-
-
-
-
-
-
-
-
-
-
-
+        funcDict = {
+            "getCourtNoticeData":getCourtNoticeData, #法院公告
+            "judicialauction":getjudicialauction, #司法拍卖
+            "opennotice":getopennotice, #开庭公告
+            "lawWenshu":getlawWenshu, #裁判文书
+            "penalties":getpenalties, #行政处罚
+            "discredit":None, #失信被执行人
+            "chattelmortgage":None, #动产抵押
+            "abnormal":None, #经营异常
+            "KnowledgePledge":None, #知识产权出质
+            "filinginfo":getfilinginfo, #立案信息
+            "equitypledge":getequitypledge, #股权出质
+        }
+        urlDict = {
+            "getCourtNoticeData":"https://aiqicha.baidu.com/c/courtnoticeajax",
+            "judicialauction":"",
+            "opennotice":"https://aiqicha.baidu.com/c/opennoticeajax",
+            "lawWenshu":"https://aiqicha.baidu.com/detail/lawWenshuAjax",
+            "penalties":"https://aiqicha.baidu.com/detail/penaltiesAjax",
+            "discredit":"",
+            "chattelmortgage":"",
+            "abnormal":"",
+            "KnowledgePledge":"",
+            "filinginfo":"https://aiqicha.baidu.com/c/filinginfoAjax",
+            "equitypledge":"https://aiqicha.baidu.com/c/equitypledgeAjax",
+        }
+        for i in funcDict.keys():
+            func = funcDict.get(i)
+            if func is None:
+                continue
+            else:
+                url = urlDict.get(i)
+                self.getAllContent(key=i,url=url,func=func)

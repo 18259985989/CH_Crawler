@@ -24,6 +24,9 @@ from CH_Analysis.analysisBaseInfo import Invest
 from CH_Analysis.analysisBaseInfo import Hold
 from CH_Analysis.analysisBaseInfo import Branch
 from CH_Analysis.analysisRiskInfo import riskInfoAnalysis
+from CH_Analysis.analysisKnowledgeInfo import knowledgeInfoAnalysis
+from CH_Analysis.analysisDevelopInfo import developInfoAnalysis
+from CH_Analysis.analysisManagerInfo import managerInfoAnalysis
 from CH_Request.util.proxyPool import proxyPool as Proxy
 from CH_Request.util.reqAiqicha import reqContent
 
@@ -183,7 +186,24 @@ class getAiqicha(object):
         :param pid:
         :return:
         """
-        pass
+        url = "https://aiqicha.baidu.com/detail/intellectualPropertyAjax"
+        headers = {
+            "Host": "aiqicha.baidu.com",
+            "Connection": "keep-alive",
+            "Accept": "application/json, text/plain, */*",
+            "X-Requested-With": "XMLHttpRequest",
+            "User-Agent": self.ua.random,
+            "Referer": "https://aiqicha.baidu.com/company_detail_{}?tab=certRecord".format(pid),
+            "Accept-Encoding": "gzip, deflate, br",
+            "Accept-Language": "zh-CN,zh;q=0.9",
+        }
+        payload = {
+            "pid": pid,
+        }
+        knowledgeJson = reqContent(url=url, headers=headers, payload=payload).reqJson()
+        if knowledgeJson != self.flag:
+            data = knowledgeJson.get("data")
+            knowledgeInfoAnalysis(knowledgeJson=data, pid=pid)
 
     def reqComDevelopInfo(self,pid):
         """
@@ -191,7 +211,24 @@ class getAiqicha(object):
         :param pid:
         :return:
         """
-        pass
+        url = "https://aiqicha.baidu.com/detail/compDevelopAjax"
+        headers = {
+            "Host": "aiqicha.baidu.com",
+            "Connection": "keep-alive",
+            "Accept": "application/json, text/plain, */*",
+            "X-Requested-With": "XMLHttpRequest",
+            "User-Agent": self.ua.random,
+            "Referer": "https://aiqicha.baidu.com/company_detail_{}?tab=companyDevelop".format(pid),
+            "Accept-Encoding": "gzip, deflate, br",
+            "Accept-Language": "zh-CN,zh;q=0.9",
+        }
+        payload = {
+            "pid": pid,
+        }
+        developJson = reqContent(url=url, headers=headers, payload=payload).reqJson()
+        if developJson != self.flag:
+            data = developJson.get("data")
+            developInfoAnalysis(developJson=data, pid=pid)
 
     def reqManagerInfo(self,pid):
         """
@@ -199,7 +236,24 @@ class getAiqicha(object):
         :param pid:
         :return:
         """
-        pass
+        url = "https://aiqicha.baidu.com/detail/compManageAjax"
+        headers = {
+            "Host": "aiqicha.baidu.com",
+            "Connection": "keep-alive",
+            "Accept": "application/json, text/plain, */*",
+            "X-Requested-With": "XMLHttpRequest",
+            "User-Agent": self.ua.random,
+            "Referer": "https://aiqicha.baidu.com/company_detail_{}?tab=operatingCondition".format(pid),
+            "Accept-Encoding": "gzip, deflate, br",
+            "Accept-Language": "zh-CN,zh;q=0.9",
+        }
+        payload = {
+            "pid": pid,
+        }
+        managerJson = reqContent(url=url, headers=headers, payload=payload).reqJson()
+        if managerJson != self.flag:
+            data = managerJson.get("data")
+            managerInfoAnalysis(managerJson=data, pid=pid)
 
 
 
