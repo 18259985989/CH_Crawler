@@ -115,6 +115,7 @@ class riskInfoAnalysis(object):
             "illegal":"",
             "restrictedConsumer":"https://aiqicha.baidu.com/detail/restrictedConsumerAjax",
             "envpunishment":"https://aiqicha.baidu.com/c/envpunishmentAjax",
+            "executedPerson":"https://aiqicha.baidu.com/c/executedPersonAjax",
         }
         for i in funcDict.keys():
             func = funcDict.get(i)
