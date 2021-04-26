@@ -98,6 +98,7 @@ class riskInfoAnalysis(object):
             "stockFreeze":getstockFreeze, #股权冻结
             "envpunishment":getenvpunishment, #环境处罚
             "terminationcase":getterminationcase, #终本案件
+            "executedPerson":getterminationcase, #被执行人
         }
         urlDict = {
             "getCourtNoticeData":"https://aiqicha.baidu.com/c/courtnoticeajax",

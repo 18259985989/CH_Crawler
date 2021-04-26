@@ -73,6 +73,21 @@ def getstockFreeze(dataList,cid,batchId):
         type = i.get("type")#类型
         status = i.get("status")#状态
 
+def getexecutedPerson(dataList,cid,batchId):
+    """
+    被执行人
+    :param dataList:
+    :return:
+    """
+    for i in dataList:
+        date = i.get("date") #立案日期
+        executeName = i.get("executeName") #被执行人
+        subjectMatter = i.get("subjectMatter") #执行标的
+        court = i.get("court") #执行法院
+        executeNumber = i.get("executeNumber") #案号
+        detailUrl = i.get("detailUrl") #详情Url
+
+
 def getenvpunishment(dataList,cid,batchId):
     """
     环境处罚
