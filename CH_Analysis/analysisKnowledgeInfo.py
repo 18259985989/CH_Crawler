@@ -16,10 +16,12 @@ from CH_Request.util.reqAiqicha import reqContent
 
 class knowledgeInfoAnalysis(object):
 
-    def __init__(self,knowledgeJson,pid):
+    def __init__(self,knowledgeJson,pid,cid,batchId):
         self.Json = knowledgeJson
         self.ua = UserAgent()
         self.pid = pid
+        self.cid = cid
+        self.batchId = batchId
         self.flag = "Fail"
         self.headers = {
             "Host": "aiqicha.baidu.com",
@@ -50,13 +52,13 @@ class knowledgeInfoAnalysis(object):
             if total <= 10:
                 # 总条数小于10直接获取  （详情内容需要根据Url再去请求获取）
                 dataList = data.get("list")
-                func(dataList=dataList)
+                func(dataList=dataList,cid=self.cid,batchId=self.batchId)
             elif total > 10 and total <= 100:
                 resp = reqContent(url=url, headers=self.headers, payload=self.payload).reqJson()
                 if resp != self.flag:
                     data = resp.get("data")
                     dataList = data.get("list")
-                    func(dataList=dataList)
+                    func(dataList=dataList,cid=self.cid,batchId=self.batchId)
             else:
                 page = int(total / 100) + 1
                 for i in range(1, page+1):
@@ -65,7 +67,7 @@ class knowledgeInfoAnalysis(object):
                     if resp != self.flag:
                         data = resp.get("data")
                         dataList = data.get("list")
-                        func(dataList=dataList)
+                        func(dataList=dataList,cid=self.cid,batchId=self.batchId)
                 self.payload.update({"p": 1})
 
     def run(self):

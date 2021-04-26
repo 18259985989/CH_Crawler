@@ -25,10 +25,12 @@ class riskInfoAnalysis(object):
     :return:
     """
 
-    def __init__(self,riskJson,pid):
+    def __init__(self,riskJson,pid,cid,batchId):
         self.Json = riskJson
         self.ua = UserAgent()
         self.pid = pid
+        self.batchId = batchId
+        self.cid = cid
         self.flag = "Fail"
         self.headers = {
             "Host":"aiqicha.baidu.com",
@@ -59,13 +61,13 @@ class riskInfoAnalysis(object):
             if total <= 10:
                 # 总条数小于10直接获取  （详情内容需要根据Url再去请求获取）
                 dataList = data.get("list")
-                func(dataList=dataList)
+                func(dataList=dataList,cid=self.cid,batchId=self.batchId)
             elif total > 10 and total <= 100:
                 resp = reqContent(url=url, headers=self.headers, payload=self.payload).reqJson()
                 if resp != self.flag:
                     data = resp.get("data")
                     dataList = data.get("list")
-                    func(dataList=dataList)
+                    func(dataList=dataList,cid=self.cid,batchId=self.batchId)
             else:
                 page = int(total / 100) + 1
                 for i in range(1, page+1):
@@ -74,13 +76,13 @@ class riskInfoAnalysis(object):
                     if resp != self.flag:
                         data = resp.get("data")
                         dataList = data.get("list")
-                        func(dataList=dataList)
+                        func(dataList=dataList,cid=self.cid,batchId=self.batchId)
                 self.payload.update({"p": 1})
 
     def run(self):
         funcDict = {
             "getCourtNoticeData":getCourtNoticeData, #法院公告
-            "judicialauction":getjudicialauction, #司法拍卖
+            # "judicialauction":getjudicialauction, #司法拍卖
             "opennotice":getopennotice, #开庭公告
             "lawWenshu":getlawWenshu, #裁判文书
             "penalties":getpenalties, #行政处罚
@@ -90,7 +92,7 @@ class riskInfoAnalysis(object):
             "filinginfo":getfilinginfo, #立案信息
             "equitypledge":getequitypledge, #股权出质
             "illegal":getillegal, #严重违法
-            "restrictedConsumer":getrestrictedConsumer, #严重违法
+            "restrictedConsumer":getrestrictedConsumer, #限制高消费
             "untax":getuntax, #税务非正常
             "taxviolation":gettaxviolation, #税务违法
             "stockFreeze":getstockFreeze, #股权冻结

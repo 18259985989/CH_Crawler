@@ -16,6 +16,7 @@ from fake_useragent import UserAgent
 dir_path = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 sys.path.append(dir_path)
 
+from CH_DB.dataBaseOperation import DBOperation
 from CH_Analysis.analysisBaseInfo import getBaseData
 from CH_Analysis.analysisBaseInfo import Shareholders
 from CH_Analysis.analysisBaseInfo import Directors
@@ -40,6 +41,7 @@ class getAiqicha(object):
         self.comName = comName
         self.errCount = 0
         self.newTabs = []
+        self.cid = ''
         self.flag = "Fail"
 
 
@@ -111,7 +113,7 @@ class getAiqicha(object):
             "branch":Branch,
             "change":ChangeRecord,
             "invest":Invest,
-            "hold":Hold,
+            # "hold":Hold,
         }
         headers = {
             "Host":"aiqicha.baidu.com",
@@ -130,7 +132,8 @@ class getAiqicha(object):
         resJson = reqContent(url=url,headers=headers,payload=payload).reqJson()
         if resJson != self.flag:
             self.newTabs =  resJson.get("data").get("basicData").get("newTabs") #该公司所拥有的数据列表
-            getBaseData(Json=resJson) #不论如何先插入基本数据信息
+            getBaseData(Json=resJson,batchId=self.batchId) #不论如何先插入基本数据信息
+            self.cid = DBOperation().selectComId(comName=self.comName) #获取comId
 
             for i in self.newTabs:
                 tab = i.get("id")
@@ -149,7 +152,7 @@ class getAiqicha(object):
                     continue
             for fun in allDataList:
                 if fun in baesFunDict.keys():
-                    baesFunDict.get(fun)(Json=resJson)
+                    baesFunDict.get(fun)(Json=resJson,batchId=self.batchId,cid=self.cid)
             return None
         else:
             print("获取到resJson为空或有异常")
@@ -179,7 +182,9 @@ class getAiqicha(object):
         riskJson = reqContent(url=url, headers=headers, payload=payload).reqJson()
         if riskJson != self.flag:
             data = riskJson.get("data")
-            riskInfoAnalysis(riskJson=data,pid=pid)
+            riskInfoAnalysis(
+                riskJson=data, pid=pid, cid=self.cid, batchId=self.batchId
+            )
 
     def reqKnowledgeInfo(self,pid):
         """

@@ -2,17 +2,21 @@
 # @Time : 2021/4/17 10:23
 # @Author :  Meow_J
 
-import pymysql
+import hashlib
 from datetime import datetime
 from CH_DB.dataBaseOperation import DBOperation
 
 DB = DBOperation()
 
+
+IMP_STATE = '10A'
+CHANGE_STATE = '10A'
+
 """
 爱企查中基本数据清洗并入库
 """
 
-def getBaseData(Json):
+def getBaseData(Json,batchId):
     """
     从Json中获取BaseInfo
     :param Json:请求得到数据源
@@ -20,7 +24,6 @@ def getBaseData(Json):
     """
     data = Json.get("data")
     basicData = data.get("basicData") #基本信息字典
-
     entName = basicData.get("entName") #公司名
     openStatus = basicData.get("openStatus") #经营状态
     entType = basicData.get("entType") #企业类型
@@ -39,6 +42,12 @@ def getBaseData(Json):
     authority = basicData.get("authority") #登记机关
     describe = basicData.get("describe") #企业简介
     email = basicData.get("email") #企业邮箱
+    nowDate = datetime.now()
+    CHANGE_STATE_DT = nowDate
+    source_update_time = nowDate  # 更新时间
+    local_update_time = nowDate
+    MD5VALUE = hashlib.md5((entName + orgNo).encode(encoding='utf-8')).hexdigest()
+    BATCH_ID = batchId
     opFrom = ""
     opTo = ""
     openTime = basicData.get("openTime").splite("至")  # 营业期限
@@ -47,44 +56,53 @@ def getBaseData(Json):
         opTo = datetime.strptime(openTime[1],"%Y-%m-%d")
 
     dataReady = [entName,openStatus,entType,regNo,orgNo,scope,regAddr,legalPerson,startDate,annualDate,
-                 regCapital,industry,telephone,authority,describe,email,opFrom,opTo]
+                 regCapital,industry,telephone,authority,describe,source_update_time,local_update_time,
+                 IMP_STATE,CHANGE_STATE,CHANGE_STATE_DT,BATCH_ID,MD5VALUE,email,opFrom,opTo]
     DB.insertBaseInfo(dataReady)
 
-def ChangeRecord(Json):
+def ChangeRecord(Json,batchId,cid):
     """
     变更信息
     :param Json:
     :return:
     """
+    nowDate =datetime.now()
     data = Json.get("data")
     changeRecordData = data.get("changeRecordData")
     totalNum = changeRecordData.get("totalNum") #可根据数量进行判断是否大于10
     dataList = changeRecordData.get("list") #数据列表
-    print("变更信息：{}".format(dataList))
     for i in dataList:
-        date = i.get("date") #日期
+        date = i.get("date") #日期 date类型
         fieldName = i.get("fieldName") #变更项
         oldValue = i.get("oldValue") #旧值
         newValue = i.get("newValue") #新值
+        CHANGE_STATE_DT = nowDate,
+        MD5VALUE = hashlib.md5((fieldName + date).encode(encoding='utf-8')).hexdigest()
+        dataReady = [cid,fieldName,oldValue,newValue,date,MD5VALUE,batchId,IMP_STATE,CHANGE_STATE,CHANGE_STATE_DT]
+        DB.insertChangeInfo(args=dataReady)
 
-def Shareholders(Json):
+def Shareholders(Json,batchId,cid):
     """
     股东信息
     :param Json:
     :return:
     """
     data = Json.get("data")
+    nowDate = datetime.now()
     shareholdersData = data.get("shareholdersData")
     totalNum = shareholdersData.get("totalNum") #可根据数量进行判断是否大于10
     dataList = shareholdersData.get("list") #数据列表
-    print("股东信息：{}".format(dataList))
     for i in dataList:
         name = i.get("name") #姓名
         subMoney = i.get("subMoney") #出资额
         subRate = i.get("subRate") #占股比例
         paidinMoney = i.get("paidinMoney") #实际出资额
+        MD5VALUE = hashlib.md5((name + subRate).encode(encoding='utf-8')).hexdigest()
+        CHANGE_STATE_DT = nowDate,
+        dataReady = [cid,name,subMoney,subRate,paidinMoney,MD5VALUE,batchId,IMP_STATE,CHANGE_STATE,CHANGE_STATE_DT]
+        DB.insertShareholders(dataReady)
 
-def Directors(Json):
+def Directors(Json,batchId,cid):
     """
     主要人员
     :param Json:
@@ -92,16 +110,20 @@ def Directors(Json):
     """
     data = Json.get("data")
     directorsData = data.get("directorsData")
+    nowDate = datetime.now()
     totalNum = directorsData.get("totalNum")  # 可根据数量进行判断是否大于10
     dataList = directorsData.get("list")  # 数据列表
-    print("主要人员：{}".format(dataList))
     for i in dataList:
         name = i.get("name")  # 姓名
         gender = i.get("gender")  # 性别
         title = i.get("title")  # 职位
         compNum = i.get("compNum")  # 关联公司数
+        MD5VALUE = hashlib.md5((name + title).encode(encoding='utf-8')).hexdigest()
+        CHANGE_STATE_DT = nowDate,
+        dataReady = [cid,name,title,MD5VALUE,batchId,IMP_STATE,CHANGE_STATE,CHANGE_STATE_DT]
+        DB.insertDirectors(args=dataReady)
 
-def Branch(Json):
+def Branch(Json,batchId,cid):
     """
     分支机构信息
     :param Json:
@@ -109,6 +131,7 @@ def Branch(Json):
     """
     data = Json.get("data")
     branchsData = data.get("branchsData")
+    nowDate = datetime.now()
     totalNum = branchsData.get("totalNum") #可根据数量进行判断是否大于10
     dataList = branchsData.get("list") #数据列表
     print("分支机构信息：{}".format(dataList))
@@ -120,6 +143,13 @@ def Branch(Json):
         startDate = i.get("startDate") #成立时间
         openStatus = i.get("openStatus") #状态
         regCapital = i.get("regCapital") #注册资本
+        MD5VALUE = hashlib.md5((entName + regCapital).encode(encoding='utf-8')).hexdigest()
+        CHANGE_STATE_DT = nowDate,
+        dataReady = [
+            cid,entName,legalPerson,startDate,openStatus,MD5VALUE,batchId,IMP_STATE,CHANGE_STATE,CHANGE_STATE_DT
+        ]
+        DB.insertBranch(args=dataReady)
+
 
 def Invest(Json):
     """
