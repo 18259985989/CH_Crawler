@@ -25,9 +25,10 @@ def getBaseData(Json,batchId):
     data = Json.get("data")
     basicData = data.get("basicData") #基本信息字典
     entName = basicData.get("entName") #公司名
+    unifiedCode = basicData.get("unifiedCode") #统一社会信用代码
     openStatus = basicData.get("openStatus") #经营状态
     entType = basicData.get("entType") #企业类型
-    regNo = basicData.get("regNo") #工商注册号
+    regNo = basicData.get("licenseNumber") #工商注册号
     orgNo = basicData.get("orgNo") #组织机构代码
     # taxNo = basicData.get("taxNo") #税号
     scope = basicData.get("scope") #经营范围
@@ -50,12 +51,12 @@ def getBaseData(Json,batchId):
     BATCH_ID = batchId
     opFrom = ""
     opTo = ""
-    openTime = basicData.get("openTime").splite("至")  # 营业期限
+    openTime = basicData.get("openTime").split("至")  # 营业期限
     if len(openTime) == 2:
-        opFrom = datetime.strptime(openTime[0],"%Y-%m-%d")
-        opTo = datetime.strptime(openTime[1],"%Y-%m-%d")
+        opFrom = datetime.strptime(openTime[0].strip(),"%Y-%m-%d")
+        opTo = datetime.strptime(openTime[1].strip(),"%Y-%m-%d")
 
-    dataReady = [entName,openStatus,entType,regNo,orgNo,scope,regAddr,legalPerson,startDate,annualDate,
+    dataReady = [entName,unifiedCode,openStatus,entType,regNo,orgNo,scope,regAddr,legalPerson,startDate,annualDate,
                  regCapital,industry,telephone,authority,describe,source_update_time,local_update_time,
                  IMP_STATE,CHANGE_STATE,CHANGE_STATE_DT,BATCH_ID,MD5VALUE,email,opFrom,opTo]
     DB.insertBaseInfo(dataReady)
@@ -72,12 +73,12 @@ def ChangeRecord(Json,batchId,cid):
     totalNum = changeRecordData.get("totalNum") #可根据数量进行判断是否大于10
     dataList = changeRecordData.get("list") #数据列表
     for i in dataList:
-        date = i.get("date") #日期 date类型
+        date = datetime.strptime(i.get("date"),"%Y-%m-%d") #日期 date类型
         fieldName = i.get("fieldName") #变更项
         oldValue = i.get("oldValue") #旧值
         newValue = i.get("newValue") #新值
         CHANGE_STATE_DT = nowDate,
-        MD5VALUE = hashlib.md5((fieldName + date).encode(encoding='utf-8')).hexdigest()
+        MD5VALUE = hashlib.md5((fieldName + oldValue).encode(encoding='utf-8')).hexdigest()
         dataReady = [cid,fieldName,oldValue,newValue,date,MD5VALUE,batchId,IMP_STATE,CHANGE_STATE,CHANGE_STATE_DT]
         DB.insertChangeInfo(args=dataReady)
 

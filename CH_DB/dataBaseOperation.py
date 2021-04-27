@@ -59,14 +59,14 @@ class DBOperation(object):
         return placeholder
 
     def insertBaseInfo(self,args):
-        sql = "insert into base_info(Enterprise_name,jyzt,gslx,Enterprise_gszch,Enterprise_zzjgdm,f_body,registered_address" \
+        sql = "insert into base_info(Enterprise_name,Enterprise_tyshxydm,jyzt,gslx,Enterprise_gszch,Enterprise_zzjgdm,f_body,registered_address," \
               "Legalrepresentative,rtime,approval_date,zczb,industry,Contact_number,djjg,z_body,source_update_time,local_update_time," \
               "IMP_STATE,CHANGE_STATE,CHANGE_STATE_DT,BATCH_ID,MD5VALUE,email,op_from,op_to) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s," \
-              "%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
+              "%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
         self.insertData(sql=sql,dataList=args)
 
     def insertChangeInfo(self,args):
-        sql = "insert into chang_info(c_id,change_item,before_change,after_change,change_date," \
+        sql = "insert into change_info(c_id,change_item,before_change,after_change,change_date," \
               "MD5VALUE,BATCH_ID,IMP_STATE,CHANGE_STATE,CHANGE_STATE_DT) VALUES (%s,%s,%s,%s,%s," \
               "%s,%s,%s,%s,%s)"
         self.insertData(sql=sql, dataList=args)
@@ -248,7 +248,7 @@ class DBOperation(object):
 
     def insertIcpinfo(self,args):
         placeholder = self.makePlaceholder(data=args)
-        sql = "insert into website_info(c_id,web_name,liscenseweb_site,ym," \
+        sql = "insert into website_info(c_id,web_name,liscense,web_site,ym," \
               "MD5VALUE,BATCH_ID,IMP_STATE,CHANGE_STATE,CHANGE_STATE_DT) values ({})".format(placeholder)
         self.insertData(sql=sql, dataList=args)
 
@@ -269,6 +269,3 @@ class DBOperation(object):
         sql = "insert into patent(c_id,patent_name,pub_number,app_publish_date," \
               "MD5VALUE,BATCH_ID,IMP_STATE,CHANGE_STATE,CHANGE_STATE_DT) values ({})".format(placeholder)
         self.insertData(sql=sql, dataList=args)
-
-
-

@@ -131,10 +131,10 @@ class getAiqicha(object):
 
         resJson = reqContent(url=url,headers=headers,payload=payload).reqJson()
         if resJson != self.flag:
+
             self.newTabs =  resJson.get("data").get("basicData").get("newTabs") #该公司所拥有的数据列表
             getBaseData(Json=resJson,batchId=self.batchId) #不论如何先插入基本数据信息
             self.cid = DBOperation().selectComId(comName=self.comName) #获取comId
-
             for i in self.newTabs:
                 tab = i.get("id")
                 total = i.get("total")
@@ -154,6 +154,7 @@ class getAiqicha(object):
                 if fun in baesFunDict.keys():
                     baesFunDict.get(fun)(Json=resJson,batchId=self.batchId,cid=self.cid)
             return None
+
         else:
             print("获取到resJson为空或有异常")
 

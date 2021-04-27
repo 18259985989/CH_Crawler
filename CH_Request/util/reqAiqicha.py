@@ -42,8 +42,12 @@ class reqContent(object):
                     else:
                         respJson = resp.json()
                         if isinstance(respJson,dict):
-                            self.errCount = 0
-                            return respJson
+                            status = respJson.get("status")
+                            if status == 0:
+                                self.errCount = 0
+                                return respJson
+                            else:
+                                self.errCount+=1
                         else:
                             self.errCount+=1
             else:
