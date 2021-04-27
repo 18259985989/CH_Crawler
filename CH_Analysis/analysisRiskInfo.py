@@ -8,7 +8,8 @@
 
 from fake_useragent import UserAgent
 from CH_Analysis.getDataFromJson import getlawWenshu, getdiscredit, getabnormal, getrestrictedConsumer, \
-    getchattelmortgage, getuntax, gettaxviolation, getstockFreeze, getenvpunishment, getterminationcase
+    getchattelmortgage, getuntax, gettaxviolation, getstockFreeze, getenvpunishment, getterminationcase, \
+    getexecutedPerson
 from CH_Analysis.getDataFromJson import getequitypledge
 from CH_Analysis.getDataFromJson import getpenalties
 from CH_Analysis.getDataFromJson import getopennotice
@@ -98,7 +99,7 @@ class riskInfoAnalysis(object):
             "stockFreeze":getstockFreeze, #股权冻结
             "envpunishment":getenvpunishment, #环境处罚
             "terminationcase":getterminationcase, #终本案件
-            "executedPerson":getterminationcase, #被执行人
+            "executedPerson":getexecutedPerson, #被执行人
         }
         urlDict = {
             "getCourtNoticeData":"https://aiqicha.baidu.com/c/courtnoticeajax",

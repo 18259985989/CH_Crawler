@@ -209,7 +209,7 @@ class getAiqicha(object):
         knowledgeJson = reqContent(url=url, headers=headers, payload=payload).reqJson()
         if knowledgeJson != self.flag:
             data = knowledgeJson.get("data")
-            knowledgeInfoAnalysis(knowledgeJson=data, pid=pid)
+            knowledgeInfoAnalysis(knowledgeJson=data, pid=pid,cid=self.cid, batchId=self.batchId)
 
     def reqComDevelopInfo(self,pid):
         """
@@ -234,7 +234,7 @@ class getAiqicha(object):
         developJson = reqContent(url=url, headers=headers, payload=payload).reqJson()
         if developJson != self.flag:
             data = developJson.get("data")
-            developInfoAnalysis(developJson=data, pid=pid)
+            developInfoAnalysis(developJson=data, pid=pid,cid=self.cid, batchId=self.batchId)
 
     def reqManagerInfo(self,pid):
         """
@@ -259,7 +259,7 @@ class getAiqicha(object):
         managerJson = reqContent(url=url, headers=headers, payload=payload).reqJson()
         if managerJson != self.flag:
             data = managerJson.get("data")
-            managerInfoAnalysis(managerJson=data, pid=pid)
+            managerInfoAnalysis(managerJson=data, pid=pid,cid=self.cid, batchId=self.batchId)
 
 
 

@@ -20,11 +20,19 @@ def getrandominspection(dataList,cid,batchId):
     :param dataList:
     :return:
     """
+    nowDate = datetime.now()
     for i in dataList:
         inspectionAuthority = i.get("inspectionAuthority")#检查机构
         inspectionResult = i.get("inspectionResult")#结果
         inspectionType = i.get("inspectionType")#类型
         inspectionDate = i.get("inspectionDate")#日期
+        MD5VALUE = hashlib.md5((inspectionAuthority + inspectionResult +inspectionType).encode(encoding='utf-8')).hexdigest()
+        CHANGE_STATE_DT = nowDate
+        dataReady = [
+            cid,inspectionAuthority,inspectionResult,inspectionType,inspectionDate,
+            MD5VALUE,batchId,IMP_STATE,CHANGE_STATE,CHANGE_STATE_DT
+        ]
+        DB.insertRandominspection(dataReady)
 
 def getfoodquality(dataList,cid,batchId):
     """
@@ -32,12 +40,22 @@ def getfoodquality(dataList,cid,batchId):
     :param dataList:
     :return:
     """
+    nowDate = datetime.now()
     for i in dataList:
         # 还有部分内容未提取
         productName = i.get("productName")#抽查产品
         notificationDate = i.get("notificationDate")#通报时间
         notificationNum = i.get("notificationNum")#通报文号
         result = i.get("result")#抽查结果
+        check_type = "10SP"
+        MD5VALUE = hashlib.md5((notificationNum + productName).encode(encoding='utf-8')).hexdigest()
+        CHANGE_STATE_DT = nowDate
+        dataReady = [
+            cid,productName,notificationDate,result,check_type,
+            MD5VALUE,batchId,IMP_STATE,CHANGE_STATE,CHANGE_STATE_DT
+        ]
+        DB.insertFoodquality(dataReady)
+
 
 def getchattelmortgage(dataList,cid,batchId):
     """
@@ -66,12 +84,22 @@ def getstockFreeze(dataList,cid,batchId):
     :param dataList:
     :return:
     """
+    nowDate = datetime.now()
     for i in dataList:
         beExecutedPerson = i.get("beExecutedPerson")#被执行人
         equalityAmount = i.get("equalityAmount")#股权数额
         notificationNumber = i.get("notificationNumber")#执行通知文书号
         type = i.get("type")#类型
         status = i.get("status")#状态
+        MD5VALUE = hashlib.md5((notificationNumber + beExecutedPerson).encode(encoding='utf-8')).hexdigest()
+        CHANGE_STATE_DT = nowDate
+        dataReady = [
+            cid,beExecutedPerson,equalityAmount,notificationNumber,type,status,
+            MD5VALUE,batchId,IMP_STATE,CHANGE_STATE,CHANGE_STATE_DT
+        ]
+        DB.insertStockFreeze(dataReady)
+
+
 
 def getexecutedPerson(dataList,cid,batchId):
     """
@@ -79,6 +107,7 @@ def getexecutedPerson(dataList,cid,batchId):
     :param dataList:
     :return:
     """
+    nowDate = datetime.now()
     for i in dataList:
         date = i.get("date") #立案日期
         executeName = i.get("executeName") #被执行人
@@ -86,6 +115,14 @@ def getexecutedPerson(dataList,cid,batchId):
         court = i.get("court") #执行法院
         executeNumber = i.get("executeNumber") #案号
         detailUrl = i.get("detailUrl") #详情Url
+        doc_type = "10BZ"
+        MD5VALUE = hashlib.md5((executeNumber + executeName).encode(encoding='utf-8')).hexdigest()
+        CHANGE_STATE_DT = nowDate
+        dataReady = [
+            cid,date,executeName,subjectMatter,court,executeNumber,doc_type,
+            MD5VALUE,batchId,IMP_STATE,CHANGE_STATE,CHANGE_STATE_DT
+        ]
+        DB.insertExecutedPerson(dataReady)
 
 
 def getenvpunishment(dataList,cid,batchId):
@@ -94,6 +131,7 @@ def getenvpunishment(dataList,cid,batchId):
     :param dataList:
     :return:
     """
+    nowDate = datetime.now()
     for i in dataList:
         documentNo = i.get("documentNo")#决定文书号
         illegalType = i.get("illegalType")#违法类型
@@ -102,6 +140,13 @@ def getenvpunishment(dataList,cid,batchId):
         punishmentDate = i.get("punishmentDate")#处罚日期
         punishmentBasis = i.get("punishmentBasis")#处罚依据
         punishmentResult = i.get("punishmentResult")#处罚结果
+        MD5VALUE = hashlib.md5((documentNo + punishmentDept).encode(encoding='utf-8')).hexdigest()
+        CHANGE_STATE_DT = nowDate
+        dataReady = [
+            cid,documentNo,illegalType,punishmentDept,punishmentDate,punishmentBasis,punishmentResult,
+            MD5VALUE,batchId,IMP_STATE,CHANGE_STATE,CHANGE_STATE_DT
+        ]
+        DB.insertEnvpunishment(dataReady)
 
 def getterminationcase(dataList,cid,batchId):
     """
@@ -109,6 +154,7 @@ def getterminationcase(dataList,cid,batchId):
     :param dataList:
     :return:
     """
+    nowdate = datetime.now()
     for i in dataList:
         filingDate = i.get("filingDate")#立案日期
         caseNoTerminal = i.get("caseNoTerminal")#案号
@@ -116,6 +162,14 @@ def getterminationcase(dataList,cid,batchId):
         court = i.get("court")#执行法院
         terminateDate = i.get("terminateDate")#终本日期
         detailUrl = i.get("detailUrl")#Url
+        doc_type = "10ZB"
+        MD5VALUE = hashlib.md5((caseNoTerminal + court).encode(encoding='utf-8')).hexdigest()
+        CHANGE_STATE_DT = nowdate
+        dataReady = [
+            cid,filingDate,caseNoTerminal,amount,court,terminateDate,doc_type,
+            MD5VALUE,batchId,IMP_STATE,CHANGE_STATE,CHANGE_STATE_DT
+        ]
+        DB.insertTerminationcase(dataReady)
 
 def gettaxviolation(dataList,cid,batchId):
     """
@@ -123,12 +177,20 @@ def gettaxviolation(dataList,cid,batchId):
     :param dataList:
     :return:
     """
+    nowDate = datetime.now()
     for i in dataList:
         name = i.get("name")#纳税人名称
         regCode = i.get("regCode")#注册号
         penaltyType = i.get("penaltyType")#案件性质
         reportDate = i.get("reportDate")#案件上报日期
         detailUrl = i.get("detailUrl")#Url
+        MD5VALUE = hashlib.md5((regCode + name).encode(encoding='utf-8')).hexdigest()
+        CHANGE_STATE_DT = nowDate
+        dataReady = [
+            cid,name,regCode,penaltyType,reportDate,
+            MD5VALUE,batchId,IMP_STATE,CHANGE_STATE,CHANGE_STATE_DT
+        ]
+        DB.insertTaxviolation(dataReady)
 
 def getuntax(dataList,cid,batchId):
     """
@@ -380,20 +442,6 @@ def getfilinginfo(dataList,cid,batchId):
         ]
         DB.insertFilinginfo(args=dataReady)
 
-def getexecutedPerson(dataList,cid,batchId):
-    """
-    被执行人
-    :param dataList:
-    :return:
-    """
-    for i in dataList:
-        date = i.get("date")  #立案时间
-        executeNumber = i.get("executeNumber")  #案号
-        subjectMatter = i.get("subjectMatter")  #执行标的
-        executeName = i.get("executeName")  #被执行人
-        court = i.get("court")  #执行法院
-        detailUrl = i.get("detailUrl")  #详情Url
-
 def getequitypledge(dataList,cid,batchId):
     """
     股权出质
@@ -422,6 +470,7 @@ def getcopyright(dataList,cid,batchId):
     :param dataList:
     :return:
     """
+    nowDate = datetime.now()
     for i in dataList:
         softwareName = i.get("softwareName") #软件名称
         shortName = i.get("shortName") #软件简介
@@ -431,6 +480,13 @@ def getcopyright(dataList,cid,batchId):
         regDate = i.get("regDate") #登记日期
         detailUrl = i.get("detailUrl") #详情Url
         regNo = i.get("detail").get("regNo") #注册号（i.get("detail")为一个字典）
+        MD5VALUE = hashlib.md5((softwareName + batchNum).encode(encoding='utf-8')).hexdigest()
+        CHANGE_STATE_DT = nowDate
+        dataReady = [
+            cid,softwareName,shortName,batchNum,softwareType,typeCode,regDate,regNo,
+            MD5VALUE,batchId,IMP_STATE,CHANGE_STATE,CHANGE_STATE_DT
+        ]
+        DB.insertCopyright(dataReady)
 
 def geticpinfo(dataList,cid,batchId):
     """
@@ -438,6 +494,7 @@ def geticpinfo(dataList,cid,batchId):
     :param dataList:
     :return:
     """
+    nowDate = datetime.now()
     for i in dataList:
         siteName = i.get("siteName") #网站名称
         icpNo = i.get("icpNo") #备案号
@@ -453,6 +510,13 @@ def geticpinfo(dataList,cid,batchId):
             for j in domainList:
                 if j != "" and j!="-":
                     domain = domain + j + " ; "
+        MD5VALUE = hashlib.md5((siteName + icpNo).encode(encoding='utf-8')).hexdigest()
+        CHANGE_STATE_DT = nowDate
+        dataReady = [
+            cid,siteName,icpNo,homeSite,domain,
+            MD5VALUE,batchId,IMP_STATE,CHANGE_STATE,CHANGE_STATE_DT
+        ]
+        DB.insertIcpinfo(dataReady)
 
 def getpatent(dataList,cid,batchId):
     """
@@ -460,12 +524,20 @@ def getpatent(dataList,cid,batchId):
     :param dataList:
     :return:
     """
+    nowDate = datetime.now()
     for i in dataList:
         patentName = i.get("patentName")#专利名称
         publicationNumber = i.get("publicationNumber")#公布号
         patentType = i.get("patentType")#专利类型
         publicationDate = i.get("publicationDate")#公布日期
         detailUrl = i.get("detailUrl")#详情Url
+        MD5VALUE = hashlib.md5((patentName + publicationNumber).encode(encoding='utf-8')).hexdigest()
+        CHANGE_STATE_DT = nowDate
+        dataReady = [
+            cid,patentName,publicationNumber,publicationDate,
+            MD5VALUE,batchId,IMP_STATE,CHANGE_STATE,CHANGE_STATE_DT
+        ]
+        DB.insertPatent(dataReady)
 
 def getmark(dataList,cid,batchId):
     """
@@ -473,6 +545,7 @@ def getmark(dataList,cid,batchId):
     :param dataList:
     :return:
     """
+    nowDate = datetime.now()
     for i in dataList:
         markLogo = i.get("markLogo")#商标Logo Url链接
         markName = i.get("markName")#商标名称
@@ -480,6 +553,13 @@ def getmark(dataList,cid,batchId):
         applyDate = i.get("applyDate")#申请时间
         markType = i.get("markType")#国际分类
         detailUrl = i.get("detailUrl")#详情Url
+        MD5VALUE = hashlib.md5((markName + markRegNo).encode(encoding='utf-8')).hexdigest()
+        CHANGE_STATE_DT = nowDate
+        dataReady = [
+            cid,markLogo,markName,markRegNo,applyDate,markType,
+            MD5VALUE,batchId,IMP_STATE,CHANGE_STATE,CHANGE_STATE_DT
+        ]
+        DB.insertMark(dataReady)
 
 def getworkright(dataList,cid,batchId):
     """
@@ -487,6 +567,7 @@ def getworkright(dataList,cid,batchId):
     :param dataList:
     :return:
     """
+    nowDate = datetime.now()
     for i in dataList:
         registrationNo = i.get("registrationNo")#登记号
         type = i.get("type")#作品类别
@@ -494,6 +575,13 @@ def getworkright(dataList,cid,batchId):
         completionDate = i.get("completionDate")#创作完成日期
         registrationDate = i.get("registrationDate")#登记日期
         publicationDate = i.get("publicationDate")#首次发表日期
+        MD5VALUE = hashlib.md5((registrationNo + name).encode(encoding='utf-8')).hexdigest()
+        CHANGE_STATE_DT = nowDate
+        dataReady = [
+            cid,registrationNo,type,name,completionDate,registrationDate,publicationDate,
+            MD5VALUE,batchId,IMP_STATE,CHANGE_STATE,CHANGE_STATE_DT
+        ]
+        DB.insertWorkright(dataReady)
 
 def getbrandProject(dataList,cid,batchId):
     """
@@ -572,6 +660,7 @@ def getlicense(dataList,cid,batchId):
     :param dataList:
     :return:
     """
+    nowDate = datetime.now()
     for i in dataList:
         licenseNumber = i.get("licenseNumber") #许可号
         licenseName = i.get("licenseName") #许可名称
@@ -579,6 +668,13 @@ def getlicense(dataList,cid,batchId):
         validityFrom = i.get("validityFrom") #有效期自
         validityTo = i.get("validityTo") #有效期至
         issueAuthority = i.get("issueAuthority") #许可机关
+        MD5VALUE = hashlib.md5((licenseNumber + licenseName).encode(encoding='utf-8')).hexdigest()
+        CHANGE_STATE_DT = nowDate
+        dataReady = [
+            cid,licenseNumber,licenseName,licenseContent,validityFrom,validityTo,issueAuthority,
+            MD5VALUE,batchId,IMP_STATE,CHANGE_STATE,CHANGE_STATE_DT
+        ]
+        DB.insertLicense(dataReady)
 
 def getimportexport(dataList,cid,batchId):
     """
@@ -586,12 +682,20 @@ def getimportexport(dataList,cid,batchId):
     :param dataList:
     :return:
     """
+    nowDate = datetime.now()
     for i in dataList:
         regDate = i.get("regDate") #注册日期
         customsNum = i.get("customsNum") #海关编码
         businessCategory = i.get("businessCategory") #经营类别
         customsReg = i.get("customsReg") #注册海关
         detailUrl = i.get("detailUrl") #详情Url
+        MD5VALUE = hashlib.md5((customsNum + customsReg).encode(encoding='utf-8')).hexdigest()
+        CHANGE_STATE_DT = nowDate
+        dataReady = [
+            cid,regDate,customsNum,businessCategory,customsReg,
+            MD5VALUE,batchId,IMP_STATE,CHANGE_STATE,CHANGE_STATE_DT
+        ]
+        DB.insertImportexport(dataReady)
 
 def getquality(dataList,cid,batchId):
     """
@@ -599,6 +703,7 @@ def getquality(dataList,cid,batchId):
     :param dataList:
     :return:
     """
+    nowDate = datetime.now()
     for i in dataList:
         productName = i.get("productName")#抽查产品
         samlingBatch = i.get("samlingBatch")#质量监督抽查批次
@@ -606,6 +711,14 @@ def getquality(dataList,cid,batchId):
         agency = i.get("detail").get("agency")#检查机构
         productDate = i.get("detail").get("productDate")#生产日期/批号
         manufacturer = i.get("detail").get("manufacturer")#生产企业
+        check_type = "10ZL"
+        MD5VALUE = hashlib.md5((productName + samplingResult).encode(encoding='utf-8')).hexdigest()
+        CHANGE_STATE_DT = nowDate
+        dataReady = [
+            cid,productName,samlingBatch,samplingResult,agency,check_type,
+            MD5VALUE,batchId,IMP_STATE,CHANGE_STATE,CHANGE_STATE_DT
+        ]
+        DB.insertQuality(dataReady)
 
 def getdoublecheckup(dataList,cid,batchId):
     """
@@ -613,6 +726,7 @@ def getdoublecheckup(dataList,cid,batchId):
     :param dataList:
     :return:
     """
+    nowDate = datetime.now()
     for i in dataList:
         raninsPlanId = i.get("raninsPlanId") #计划编号
         raninsPlaneName = i.get("raninsPlaneName") #计划名称
@@ -620,6 +734,14 @@ def getdoublecheckup(dataList,cid,batchId):
         insauth = i.get("insauth") #检察机关
         insDate = i.get("insDate") #检查日期
         detailUrl = i.get("detailUrl") #详情Url
+        check_type = "10SS"
+        MD5VALUE = hashlib.md5((raninsPlanId + raninsPlaneName).encode(encoding='utf-8')).hexdigest()
+        CHANGE_STATE_DT = nowDate
+        dataReady = [
+            cid,raninsPlanId,raninsPlaneName,insauth,insDate,check_type,
+            MD5VALUE,batchId,IMP_STATE,CHANGE_STATE,CHANGE_STATE_DT
+        ]
+        DB.insertDoublecheckup(dataReady)
 
 def gettenderbidding(dataList,cid,batchId):
     """
@@ -627,6 +749,7 @@ def gettenderbidding(dataList,cid,batchId):
     :param dataList:
     :return:
     """
+    nowDate = datetime.now()
     for i in dataList:
         title = i.get("title")#标题
         publishDate = i.get("publishDate")#发布日期
@@ -642,4 +765,11 @@ def gettenderbidding(dataList,cid,batchId):
         for j in winnerList:
             if isinstance(j,dict):
                 winner = winner + j.get("name") + " ; "
+        MD5VALUE = hashlib.md5((title + publishDate).encode(encoding='utf-8')).hexdigest()
+        CHANGE_STATE_DT = nowDate
+        dataReady = [
+            cid,title,publishDate,tender,
+            MD5VALUE,batchId,IMP_STATE,CHANGE_STATE,CHANGE_STATE_DT
+        ]
+        DB.insertTenderbidding(dataReady)
 

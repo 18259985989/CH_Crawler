@@ -74,11 +74,11 @@ class developInfoAnalysis(object):
 
     def run(self):
         funcDict = {
-            "brandProject":getbrandProject, #企业品牌项目
-            "getCompPersonList":getCompPersonList,
+            # "brandProject":getbrandProject, #企业品牌项目
+            # "getCompPersonList":getCompPersonList,
             "investorlist":getinvestorlist,
-            "projectFinance":projectFinance,
-            "projectSimilarsInfo":getprojectSimilarsInfo,
+            # "projectFinance":projectFinance,
+            # "projectSimilarsInfo":getprojectSimilarsInfo,
         }
         urlDict = {
             "brandProject":"",

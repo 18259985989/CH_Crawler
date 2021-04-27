@@ -89,11 +89,6 @@ class DBOperation(object):
               "MD5VALUE,BATCH_ID,IMP_STATE,CHANGE_STATE,CHANGE_STATE_DT) VALUES ({})".format(placeholder)
         self.insertData(sql=sql, dataList=args)
 
-    def insertLawWenshu(self,args):
-        placeholder = self.makePlaceholder(data=args)
-        sql = "insert into lawsuit_basic(c_id, licence_number, licence_name, licence_anth, from_date, to_date, licence_content, legal_person, audit_type) " \
-              "values ({})".format(placeholder)
-        self.insertData(sql=sql, dataList=args)
 
     def insertCourtNotice(self,args):
         placeholder = self.makePlaceholder(data=args)
@@ -113,7 +108,7 @@ class DBOperation(object):
               "MD5VALUE,BATCH_ID,IMP_STATE,CHANGE_STATE,CHANGE_STATE_DT) values ({})".format(placeholder)
         self.insertData(sql=sql, dataList=args)
 
-    def insertlawWenshu(self,args):
+    def insertLawWenshu(self,args):
         placeholder = self.makePlaceholder(data=args)
         sql = "insert into lawsuit_basic(c_id,casereason,decision_time,caseno,title," \
               "MD5VALUE,BATCH_ID,IMP_STATE,CHANGE_STATE,CHANGE_STATE_DT) values ({})".format(placeholder)
@@ -170,6 +165,108 @@ class DBOperation(object):
     def insertUntax(self,args):
         placeholder = self.makePlaceholder(data=args)
         sql = "insert into owing_tax(c_id,tax_id_number,own_tax_balance,tax_category,publish_date," \
+              "MD5VALUE,BATCH_ID,IMP_STATE,CHANGE_STATE,CHANGE_STATE_DT) values ({})".format(placeholder)
+        self.insertData(sql=sql, dataList=args)
+
+    def insertTaxviolation(self,args):
+        placeholder = self.makePlaceholder(data=args)
+        sql = "insert into taxviolation(c_id,taxpayername,taxpayernumber,casenature,publishtime," \
+              "MD5VALUE,BATCH_ID,IMP_STATE,CHANGE_STATE,CHANGE_STATE_DT) values ({})".format(placeholder)
+        self.insertData(sql=sql, dataList=args)
+
+    def insertStockFreeze(self,args):
+        placeholder = self.makePlaceholder(data=args)
+        sql = "insert into stockfreeze(c_id,executedby,equityamount,executionnoticenum,statuestype,status," \
+              "MD5VALUE,BATCH_ID,IMP_STATE,CHANGE_STATE,CHANGE_STATE_DT) values ({})".format(placeholder)
+        self.insertData(sql=sql, dataList=args)
+
+    def insertEnvpunishment(self,args):
+        placeholder = self.makePlaceholder(data=args)
+        sql = "insert into env_punishment(c_id,CaseNo,IllegalType,PunishGov,PunishDate,PunishBasis,PunishmentResult," \
+              "MD5VALUE,BATCH_ID,IMP_STATE,CHANGE_STATE,CHANGE_STATE_DT) values ({})".format(placeholder)
+        self.insertData(sql=sql, dataList=args)
+
+    def insertTerminationcase(self,args):
+        placeholder = self.makePlaceholder(data=args)
+        sql = "insert into to_execute(c_id,case_create_date,case_number,exec_money,exec_court,end_date,doc_type," \
+              "MD5VALUE,BATCH_ID,IMP_STATE,CHANGE_STATE,CHANGE_STATE_DT) values ({})".format(placeholder)
+        self.insertData(sql=sql, dataList=args)
+
+    def insertExecutedPerson(self,args):
+        placeholder = self.makePlaceholder(data=args)
+        sql = "insert into to_execute(c_id,case_create_date,executed,exec_money,exec_court,case_number,doc_type," \
+              "MD5VALUE,BATCH_ID,IMP_STATE,CHANGE_STATE,CHANGE_STATE_DT) values ({})".format(placeholder)
+        self.insertData(sql=sql, dataList=args)
+
+    def insertLicense(self,args):
+        placeholder = self.makePlaceholder(data=args)
+        sql = "insert into licence_info(c_id,licence_number,licence_name,licence_content,from_date,to_date,licence_anth," \
+              "MD5VALUE,BATCH_ID,IMP_STATE,CHANGE_STATE,CHANGE_STATE_DT) values ({})".format(placeholder)
+        self.insertData(sql=sql, dataList=args)
+
+    def insertImportexport(self,args):
+        placeholder = self.makePlaceholder(data=args)
+        sql = "insert into im_export_base(c_id,record_date,crcode,management_category,customs_registered_address," \
+              "MD5VALUE,BATCH_ID,IMP_STATE,CHANGE_STATE,CHANGE_STATE_DT) values ({})".format(placeholder)
+        self.insertData(sql=sql, dataList=args)
+
+    def insertQuality(self,args):
+        placeholder = self.makePlaceholder(data=args)
+        sql = "insert into check_info(c_id,productName,samlingBatch,check_result,check_authority,check_type," \
+              "MD5VALUE,BATCH_ID,IMP_STATE,CHANGE_STATE,CHANGE_STATE_DT) values ({})".format(placeholder)
+        self.insertData(sql=sql, dataList=args)
+
+    def insertDoublecheckup(self,args):
+        placeholder = self.makePlaceholder(data=args)
+        sql = "insert into check_info(c_id,raninsPlanId,raninsPlaneName,check_authority,check_date,check_type," \
+              "MD5VALUE,BATCH_ID,IMP_STATE,CHANGE_STATE,CHANGE_STATE_DT) values ({})".format(placeholder)
+        self.insertData(sql=sql, dataList=args)
+
+    def insertRandominspection(self,args):
+        placeholder = self.makePlaceholder(data=args)
+        sql = "insert into check_info(c_id,check_authority,check_result,check_type,check_date," \
+              "MD5VALUE,BATCH_ID,IMP_STATE,CHANGE_STATE,CHANGE_STATE_DT) values ({})".format(placeholder)
+        self.insertData(sql=sql, dataList=args)
+
+    def insertFoodquality(self,args):
+        placeholder = self.makePlaceholder(data=args)
+        sql = "insert into check_info(c_id,productName,check_date,check_result,check_type," \
+              "MD5VALUE,BATCH_ID,IMP_STATE,CHANGE_STATE,CHANGE_STATE_DT) values ({})".format(placeholder)
+        self.insertData(sql=sql, dataList=args)
+
+    def insertTenderbidding(self,args):
+        placeholder = self.makePlaceholder(data=args)
+        sql = "insert into bid_info(c_id,title,publish_date,purchaser," \
+              "MD5VALUE,BATCH_ID,IMP_STATE,CHANGE_STATE,CHANGE_STATE_DT) values ({})".format(placeholder)
+        self.insertData(sql=sql, dataList=args)
+
+    def insertCopyright(self,args):
+        placeholder = self.makePlaceholder(data=args)
+        sql = "insert into copyright_software(c_id,software_name,simple_name,version,work_type,reg_date,reg_number," \
+              "MD5VALUE,BATCH_ID,IMP_STATE,CHANGE_STATE,CHANGE_STATE_DT) values ({})".format(placeholder)
+        self.insertData(sql=sql, dataList=args)
+
+    def insertIcpinfo(self,args):
+        placeholder = self.makePlaceholder(data=args)
+        sql = "insert into website_info(c_id,web_name,liscenseweb_site,ym," \
+              "MD5VALUE,BATCH_ID,IMP_STATE,CHANGE_STATE,CHANGE_STATE_DT) values ({})".format(placeholder)
+        self.insertData(sql=sql, dataList=args)
+
+    def insertWorkright(self,args):
+        placeholder = self.makePlaceholder(data=args)
+        sql = "insert into copyright_work(c_id,reg_number,work_type,work_name,finish_date,reg_date,publish_date," \
+              "MD5VALUE,BATCH_ID,IMP_STATE,CHANGE_STATE,CHANGE_STATE_DT) values ({})".format(placeholder)
+        self.insertData(sql=sql, dataList=args)
+
+    def insertMark(self,args):
+        placeholder = self.makePlaceholder(data=args)
+        sql = "insert into tm_info(c_id,pic_url,tm_name,reg_number,apply_date,tm_type," \
+              "MD5VALUE,BATCH_ID,IMP_STATE,CHANGE_STATE,CHANGE_STATE_DT) values ({})".format(placeholder)
+        self.insertData(sql=sql, dataList=args)
+
+    def insertPatent(self,args):
+        placeholder = self.makePlaceholder(data=args)
+        sql = "insert into patent(c_id,patent_name,pub_number,app_publish_date," \
               "MD5VALUE,BATCH_ID,IMP_STATE,CHANGE_STATE,CHANGE_STATE_DT) values ({})".format(placeholder)
         self.insertData(sql=sql, dataList=args)
 
