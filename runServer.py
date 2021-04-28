@@ -24,7 +24,9 @@ rabbitMQMonitor = RabbitMQMonitor()
 # 获取当前爬虫数，分配爬虫source 如 SOURCE_TYC = 52
 crawler_source = rabbitMQMonitor.get_crawl_source(QUEUE_NAME='direct.passEx.DATA_MINING')
 # field_time_name = 'shuidi_time'  # XXX_time修改 mytest.business_directory 中添加的更新时间字段
-field_time_name_2 = 'qcc_time'
+field_time_name_2 = 'qcc_time'# 用于更新时间检查  暂不修改
+
+
 def start(rabbitMQ, source, message, pri):
     print(message)
     print(source)
@@ -71,19 +73,6 @@ if __name__ == '__main__':
                               callback=start)#需要队列长度和死信消息
 
     rabbitMQ.startRabbitMq()
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

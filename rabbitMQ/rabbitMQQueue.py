@@ -38,6 +38,7 @@ class RabbitMQQueueEnum:
     QUEUE_TEST = 'TEST'
 
     QUEUE_DATA_MINING = 'DATA_MINING'
+    QUEUE_DATA_READY = 'DATA_READY'
 
     # QUEUE_TEST2
     PRIO_MOST = 3

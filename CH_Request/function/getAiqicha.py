@@ -13,6 +13,8 @@ import requests
 import sys
 from fake_useragent import UserAgent
 
+from rabbitMQ.rabbitMQQueue import RabbitMQQueueEnum
+
 dir_path = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 sys.path.append(dir_path)
 
@@ -30,15 +32,18 @@ from CH_Analysis.analysisDevelopInfo import developInfoAnalysis
 from CH_Analysis.analysisManagerInfo import managerInfoAnalysis
 from CH_Request.util.proxyPool import proxyPool as Proxy
 from CH_Request.util.reqAiqicha import reqContent
+from rabbitMQ.rabbitMQ import RabbitMQ
 
 
 class getAiqicha(object):
 
-    def __init__(self,comName):
+    def __init__(self,dictInfo):
         self.batchId = str(uuid.uuid4()).replace("-","") #生成唯一性Id
         self.proxy = Proxy()
         self.ua = UserAgent()
-        self.comName = comName
+        self.DB = DBOperation()
+        self.dictInfo = dictInfo
+        self.comName =self.DB.SelectFromDb(comdict=dictInfo,batchId=self.batchId)[0]
         self.errCount = 0
         self.newTabs = []
         self.cid = ''
@@ -133,7 +138,7 @@ class getAiqicha(object):
 
             self.newTabs =  resJson.get("data").get("basicData").get("newTabs") #该公司所拥有的数据列表
             getBaseData(Json=resJson,batchId=self.batchId) #不论如何先插入基本数据信息
-            self.cid = DBOperation().selectComId(comName=self.comName) #获取comId
+            self.cid = self.DB.selectComId(comName=self.comName) #获取comId
             for i in self.newTabs:
                 tab = i.get("id")
                 total = i.get("total")
@@ -264,31 +269,26 @@ class getAiqicha(object):
 
 
     def run(self):
-        import time
-        time.sleep(10)
-        print(111111112421412)
+        pid = self.reqCompanyId()
+        self.reqBaseInfo(pid=pid)  #基本信息及其他基础信息
+        funDict = {
+            "risk":self.reqRiskInfo,
+            "certRecord":self.reqKnowledgeInfo,
+            "companyDevelop":self.reqComDevelopInfo,
+            "operatingCondition":self.reqManagerInfo,
+        }
+        for obj in self.newTabs:
+            id = obj.get("id")
+            total = obj.get("total")
+            if id in funDict.keys():
+                if total == 0 or total == "":
+                    continue
+                else:
+                    funDict.get(id)(pid=pid)
+            else:
+                pass
+        self.DB.UpadteState(batchId=self.batchId)
+        RabbitMQ().sendMessage(queueName=RabbitMQQueueEnum.QUEUE_DATA_READY,
+                               message=json.dumps(self.dictInfo))
+        print("发送成功")
 
-        # pid = self.reqCompanyId()
-        # self.reqBaseInfo(pid=pid)  #基本信息及其他基础信息
-        # funDict = {
-        #     "risk":self.reqRiskInfo,
-        #     "certRecord":self.reqKnowledgeInfo,
-        #     "companyDevelop":self.reqComDevelopInfo,
-        #     "operatingCondition":self.reqManagerInfo,
-        # }
-        # for obj in self.newTabs:
-        #     id = obj.get("id")
-        #     total = obj.get("total")
-        #     if id in funDict.keys():
-        #         if total == 0 or total == "":
-        #             continue
-        #         else:
-        #             funDict.get(id)(pid=pid)
-        #     else:
-        #         pass
-
-
-
-# if __name__ == '__main__':
-#     a = getAiqicha(comName='福建诚华信用管理有限公司')
-#     a.run()

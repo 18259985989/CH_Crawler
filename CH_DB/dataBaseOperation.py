@@ -7,6 +7,7 @@
 """
 
 import pymysql
+from datetime import datetime
 from requests.exceptions import RequestException
 
 
@@ -19,6 +20,14 @@ class DBOperation(object):
         self.passWord = '123456'
         self.charset = 'utf-8'
         self.database = 'db_source'
+
+    def UpadteState(self,batchId):
+        db = pymysql.connect(host='192.168.2.23', user='ch_data_source', passwd='123456', db='db_source', port=7865)
+        cursor = db.cursor()
+        sql = "UPDATE batch_info SET IMP_STATE = '10A' WHERE BATCH_ID = '{}'".format(batchId)
+        cursor.execute(sql)
+        db.commit()
+        db.close()
 
     def selectComId(self,comName):
         """
@@ -37,6 +46,44 @@ class DBOperation(object):
             return cid
         except RequestException as err:
             print(err)
+
+    def SelectFromDb(self,comdict,batchId):
+
+        if "o_pay_info_id" in comdict.keys():
+            o_pay_info_id = comdict.get("o_pay_info_id")
+            db = pymysql.connect(host='192.168.2.23', user='ch_data_oper', passwd='123456', db='db_store', port=7865)
+            cursor = db.cursor()
+            sql = "Select COMPANY_NAME,COMPANY_USCC from o_pay_info where ID = '{}'".format(o_pay_info_id)
+            cursor.execute(sql)
+            res = cursor.fetchone()
+            print(res)
+            db.commit()
+            db.close()
+            return res
+        elif "c_basic_info_company_id" in comdict.keys():
+            print("注册情况")
+            c_basic_info_company_id = comdict.get("c_basic_info_company_id")
+            db = pymysql.connect(host='192.168.2.23', user='ch_data_oper', passwd='123456', db='db_store', port=7865)
+            db_2 = pymysql.connect(host='192.168.2.23', user='ch_data_source', passwd='123456', db='db_source', port=7865)
+            cursor = db.cursor()
+            cursor_2 = db_2.cursor()
+            sql = "Select ENTERPRISE_NAME,USCC from c_basic_info where COMPANY_ID = '{}'".format(
+                c_basic_info_company_id)
+            cursor.execute(sql)
+            res = cursor.fetchone()
+
+            data = (batchId,res[0],c_basic_info_company_id,'10M',datetime.now())
+            sql_2 = "insert into batch_info(BATCH_ID,COMPANY_NAME, COMPANY_ID, IMP_STATE, BATCH_DT)values(%s,%s,%s,%s,%s)"
+            cursor_2.execute(sql_2, data)
+
+            db.commit()
+            db_2.commit()
+            db.close()
+            db_2.close()
+            return res
+        else:
+            print("暂无此用例")
+            return None
 
     def insertData(self,sql,dataList):
         db = pymysql.connect(host=self.host, port=self.port, user=self.userName, passwd=self.passWord, db=self.database)
