@@ -44,7 +44,6 @@ class getAiqicha(object):
         self.cid = ''
         self.flag = "Fail"
 
-
     def reqCompanyId(self):
         url = 'https://aiqicha.baidu.com/s'
         headers = {
@@ -265,27 +264,31 @@ class getAiqicha(object):
 
 
     def run(self):
-        pid = self.reqCompanyId()
-        self.reqBaseInfo(pid=pid)  #基本信息及其他基础信息
-        funDict = {
-            # "risk":self.reqRiskInfo,
-            # "certRecord":self.reqKnowledgeInfo,
-            # "companyDevelop":self.reqComDevelopInfo,
-            "operatingCondition":self.reqManagerInfo,
-        }
-        for obj in self.newTabs:
-            id = obj.get("id")
-            total = obj.get("total")
-            if id in funDict.keys():
-                if total == 0 or total == "":
-                    continue
-                else:
-                    funDict.get(id)(pid=pid)
-            else:
-                pass
+        import time
+        time.sleep(10)
+        print(111111112421412)
+
+        # pid = self.reqCompanyId()
+        # self.reqBaseInfo(pid=pid)  #基本信息及其他基础信息
+        # funDict = {
+        #     "risk":self.reqRiskInfo,
+        #     "certRecord":self.reqKnowledgeInfo,
+        #     "companyDevelop":self.reqComDevelopInfo,
+        #     "operatingCondition":self.reqManagerInfo,
+        # }
+        # for obj in self.newTabs:
+        #     id = obj.get("id")
+        #     total = obj.get("total")
+        #     if id in funDict.keys():
+        #         if total == 0 or total == "":
+        #             continue
+        #         else:
+        #             funDict.get(id)(pid=pid)
+        #     else:
+        #         pass
 
 
 
-if __name__ == '__main__':
-    a = getAiqicha(comName='福建诚华信用管理有限公司')
-    a.run()
+# if __name__ == '__main__':
+#     a = getAiqicha(comName='福建诚华信用管理有限公司')
+#     a.run()
