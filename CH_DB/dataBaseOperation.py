@@ -136,6 +136,11 @@ class DBOperation(object):
               "MD5VALUE,BATCH_ID,IMP_STATE,CHANGE_STATE,CHANGE_STATE_DT) VALUES ({})".format(placeholder)
         self.insertData(sql=sql, dataList=args)
 
+    def insertInvest(self,args):
+        placeholder = self.makePlaceholder(data=args)
+        sql = "insert into invest(c_id,ent_name,legal_person,estiblish_date,invest_amount,invest_percent,state," \
+              "MD5VALUE,BATCH_ID,IMP_STATE,CHANGE_STATE,CHANGE_STATE_DT) VALUES ({})".format(placeholder)
+        self.insertData(sql=sql, dataList=args)
 
     def insertCourtNotice(self,args):
         placeholder = self.makePlaceholder(data=args)

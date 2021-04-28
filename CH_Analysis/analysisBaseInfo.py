@@ -76,7 +76,10 @@ def ChangeRecord(Json,batchId,cid):
     :return:
     """
     nowDate =datetime.now()
-    data = Json.get("data")
+    try:
+        data = Json.get("data")
+    except:
+        data = datetime.strptime("9999-12-31", "%Y-%m-%d")
     changeRecordData = data.get("changeRecordData")
     totalNum = changeRecordData.get("totalNum") #可根据数量进行判断是否大于10
     dataList = changeRecordData.get("list") #数据列表
@@ -160,18 +163,34 @@ def Branch(Json,batchId,cid):
         DB.insertBranch(args=dataReady)
 
 
-def Invest(Json):
+def Invest(Json,batchId,cid):
     """
     对外投资信息
     :param Json:
     :return:
     """
     data = Json.get("data")
+    nowDate = datetime.now()
     investRecordData = data.get("investRecordData")
     totalNum = investRecordData.get("totalNum")  # 可根据数量进行判断是否大于10
     dataList = investRecordData.get("list")  # 数据列表
     for i in dataList:
-        pass
+        entName = i.get("entName")#被投资企业
+        legalPerson = i.get("legalPerson")#法人
+        try:
+            startDate = datetime.strptime(i.get("startDate"), "%Y-%m-%d")#成立时间
+        except:
+            startDate = datetime.strptime("9999-12-31", "%Y-%m-%d")
+        regCapital = i.get("regCapital")#认缴金额
+        regRate = i.get("regRate")#投资占比
+        openStatus = i.get("openStatus")#状态
+        MD5VALUE = hashlib.md5((entName + regCapital).encode(encoding='utf-8')).hexdigest()
+        CHANGE_STATE_DT = nowDate,
+        dataReady = [cid,entName,legalPerson,startDate,regCapital,regRate,openStatus,MD5VALUE,batchId,IMP_STATE,CHANGE_STATE,CHANGE_STATE_DT]
+        DB.insertInvest(dataReady)
+
+
+
 
 def Hold(Json):
     """
