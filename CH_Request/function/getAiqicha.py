@@ -268,9 +268,9 @@ class getAiqicha(object):
         pid = self.reqCompanyId()
         self.reqBaseInfo(pid=pid)  #基本信息及其他基础信息
         funDict = {
-            "risk":self.reqRiskInfo,
-            "certRecord":self.reqKnowledgeInfo,
-            "companyDevelop":self.reqComDevelopInfo,
+            # "risk":self.reqRiskInfo,
+            # "certRecord":self.reqKnowledgeInfo,
+            # "companyDevelop":self.reqComDevelopInfo,
             "operatingCondition":self.reqManagerInfo,
         }
         for obj in self.newTabs:

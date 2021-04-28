@@ -72,8 +72,8 @@ class managerInfoAnalysis(object):
         funcDict = {
             "license":getlicense,#行政许可
             "importexport":getimportexport,#进出口信用
-            "getquality":getquality,#质量监督检查
-            "getdoublecheckup":getdoublecheckup,#双随机检查
+            "quality":getquality,#质量监督检查
+            "doublecheckup":getdoublecheckup,#双随机检查
             "randominspection":getrandominspection,#抽查检查
             "tenderbidding":gettenderbidding,#招投标
             "foodquality":getfoodquality,#食品抽查检查
@@ -81,8 +81,8 @@ class managerInfoAnalysis(object):
         urlDict = {
             "license":"https://aiqicha.baidu.com/detail/licenseAjax",
             "importexport":"",
-            "getquality":"https://aiqicha.baidu.com/detail/qualityAjax",
-            "getdoublecheckup":"",
+            "quality":"https://aiqicha.baidu.com/detail/qualityAjax",
+            "doublecheckup":"",
             "tenderbidding":"https://aiqicha.baidu.com/c/tenderbiddingAjax",
             "foodquality":"https://aiqicha.baidu.com/detail/foodqualityAjax",
         }
