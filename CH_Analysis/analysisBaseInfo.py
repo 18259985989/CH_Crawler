@@ -52,10 +52,18 @@ def getBaseData(Json,batchId):
     opFrom = ""
     opTo = ""
     openTime = basicData.get("openTime").split("至")  # 营业期限
-    if len(openTime) == 2:
-        opFrom = datetime.strptime(openTime[0].strip(),"%Y-%m-%d")
-        opTo = datetime.strptime(openTime[1].strip(),"%Y-%m-%d")
-
+    if len(openTime) ==1:
+        opFrom = datetime.strptime("9999-12-31","%Y-%m-%d")
+        opTo = datetime.strptime("9999-12-31","%Y-%m-%d")
+    elif len(openTime) == 2:
+        try:
+            opFrom = datetime.strptime(openTime[0].strip(),"%Y-%m-%d")
+        except:
+            opFrom = datetime.strptime("9999-12-31","%Y-%m-%d")
+        try:
+            opTo = datetime.strptime(openTime[1].strip(),"%Y-%m-%d")
+        except:
+            opTo = datetime.strptime("9999-12-31","%Y-%m-%d")
     dataReady = [entName,unifiedCode,openStatus,entType,regNo,orgNo,scope,regAddr,legalPerson,startDate,annualDate,
                  regCapital,industry,telephone,authority,describe,source_update_time,local_update_time,
                  IMP_STATE,CHANGE_STATE,CHANGE_STATE_DT,BATCH_ID,MD5VALUE,email,opFrom,opTo]
@@ -177,5 +185,4 @@ def Hold(Json):
     dataList = holdsData.get("list")  # 数据列表
     for i in dataList:
         pass
-
 

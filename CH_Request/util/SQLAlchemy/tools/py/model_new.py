@@ -52,7 +52,7 @@ class CAbnormal(Base1):
     STATE = Column(String(15))
     STATEDATE = Column(DateTime)
 
-    baseInfo = relationship("BaseInfo", backref=backref('abnormalRel', order_by=COMPANY_ID, cascade="all, delete-orphan"))
+    # baseInfo = relationship("BaseInfo", backref=backref('abnormalRel', order_by=COMPANY_ID, cascade="all, delete-orphan"))
 
     def __repr__(self):
         return "id: {0}, companyId: {1}, putDate: {2}, decisionOffice: {3}, putReason: {4}, outReason: {5}, outDate: {6}, updtTime: {7}".format(
@@ -129,7 +129,7 @@ class CBidInfo(Base1):
     STATEDATE = Column(DateTime)
 
 
-    baseInfo = relationship("BaseInfo", backref=backref('bidInfoRel', order_by=COMPANY_ID, cascade="all, delete-orphan"))
+    # baseInfo = relationship("BaseInfo", backref=backref('bidInfoRel', order_by=COMPANY_ID, cascade="all, delete-orphan"))
 
     def __repr__(self):
         return "id: {0}, companyId: {1}, description: {2}, publicDate: {3}, itemType: {4}, updtTime: {5}, purchasingAgent: {6}".format(
@@ -151,7 +151,7 @@ class CBranch(Base1):
     STATEDATE = Column(DateTime)
 
 
-    baseInfo = relationship("BaseInfo", backref=backref('branchRel', order_by=COMPANY_ID, cascade="all, delete-orphan"))
+    # baseInfo = relationship("BaseInfo", backref=backref('branchRel', order_by=COMPANY_ID, cascade="all, delete-orphan"))
 
     def __repr__(self):
         return "id: {0}, companyId: {1}, companyName: {2}, creditCode: {3}".format(
@@ -173,7 +173,7 @@ class CChangeInfo(Base1):
     STATEDATE = Column(DateTime)
     OLD_TAB_ID = Column(String(32))
 
-    baseInfo = relationship("BaseInfo", backref=backref('changeInfoRel', order_by=COMPANY_ID, cascade="all, delete-orphan"))
+    # baseInfo = relationship("BaseInfo", backref=backref('changeInfoRel', order_by=COMPANY_ID, cascade="all, delete-orphan"))
 
     def __repr__(self):
         return "id: {0}, companyId: {1}, changeItem: {2}, beforeChange: {3}, afterChange: {4}, changeTime: {5}, updtTime: {6}".format(
@@ -235,8 +235,8 @@ class CCompanyMortgage(Base1):
     STATE = Column(String(15))
     STATEDATE = Column(DateTime)
 
-    baseInfo = relationship("BaseInfo",
-                            backref=backref('companyMortgageRel', order_by=COMPANY_ID, cascade="all, delete-orphan"))
+    # baseInfo = relationship("BaseInfo",
+    #                         backref=backref('companyMortgageRel', order_by=COMPANY_ID, cascade="all, delete-orphan"))
 
     def __repr__(self):
         return "id: {0}, companyId: {1}, registerDate: {2}, registerNumber: {3}, registerOffice: {4}, guaranteedType: {5}, guaranteedAmount: {6}, state: {7}, updtTime: {8}".format(
@@ -266,8 +266,8 @@ class CCopyrightSoftware(Base1):
     STATE = Column(String(15))
     STATEDATE = Column(DateTime)
 
-    baseInfo = relationship("BaseInfo",
-                            backref=backref('copyrightSoftwareRel', order_by=COMPANY_ID, cascade="all, delete-orphan"))
+    # baseInfo = relationship("BaseInfo",
+    #                         backref=backref('copyrightSoftwareRel', order_by=COMPANY_ID, cascade="all, delete-orphan"))
 
     def __repr__(self):
         return "id: {0}, companyId: {1}, softwareName: {2}, registerNumber: {3}, versionNumber: {4}, classificationNumber: {5}, " \
@@ -329,7 +329,7 @@ class CCourtAuto(Base1):
     STATE = Column(String(15))
     STATEDATE = Column(DateTime)
 
-    baseInfo = relationship("BaseInfo", backref=backref('courtAutoRel', order_by=COMPANY_ID, cascade="all, delete-orphan"))
+    # baseInfo = relationship("BaseInfo", backref=backref('courtAutoRel', order_by=COMPANY_ID, cascade="all, delete-orphan"))
 
     def __repr__(self):
         return "id: {0}, companyId: {1}, announcementDate: {2}, caseReason: {3}, appellant: {4}, defendant: {5}, caseNumber: {6}, court: {7}, updtTime: {8}".format(
@@ -393,7 +393,7 @@ class CDishonestInfo(Base1):
     STATE = Column(String(15))
     STATEDATE = Column(DateTime)
 
-    baseInfo = relationship("BaseInfo", backref=backref('dishonestInfoRel', order_by=COMPANY_ID, cascade="all, delete-orphan"))
+    # baseInfo = relationship("BaseInfo", backref=backref('dishonestInfoRel', order_by=COMPANY_ID, cascade="all, delete-orphan"))
 
     def __repr__(self):
         return "id: {0}, companyId: {1}, setDate: {2}, caseNumber: {3}, performNumber: {4}, implementCourt: {5}, performState: {6}, updtTime: {7}".format(
@@ -514,7 +514,7 @@ class CImExportBase(Base1):
     STATE = Column(String(15))
     STATEDATE = Column(DateTime)
 
-    baseInfo = relationship("BaseInfo", backref=backref('imExportBaseRel', order_by=COMPANY_ID, cascade="all, delete-orphan"))
+    # baseInfo = relationship("BaseInfo", backref=backref('imExportBaseRel', order_by=COMPANY_ID, cascade="all, delete-orphan"))
 
     def __repr__(self):
         return "id: {0}, companyId: {1}, registeredDate: {2}, customsRegisteredNumber: {3}, \
@@ -586,7 +586,7 @@ class CInvest(Base1):
     STATEDATE = Column(DateTime)
 
 
-    baseInfo = relationship("BaseInfo", backref=backref('investRel', order_by=COMPANY_ID, cascade="all, delete-orphan"))
+    # baseInfo = relationship("BaseInfo", backref=backref('investRel', order_by=COMPANY_ID, cascade="all, delete-orphan"))
 
     def __repr__(self):
         return "id: {0}, companyId: {1}, investCompany: {2}, investNumber: {3}, investProportion: {4}, updtTime: {5}".format(
@@ -682,7 +682,7 @@ class CLawsuitBasic(Base1):
     STATE = Column(String(15))
     STATEDATE = Column(DateTime)
 
-    baseInfo = relationship("BaseInfo", backref=backref('lawsuitBasicRel', order_by=COMPANY_ID, cascade="all, delete-orphan"))
+    # baseInfo = relationship("BaseInfo", backref=backref('lawsuitBasicRel', order_by=COMPANY_ID, cascade="all, delete-orphan"))
 
     def __repr__(self):
         return "id: {0}, companyId: {1}, sentenceDate: {2}, plaintiff: {3}, defendant: {4},caseType: {5}, " \
@@ -711,7 +711,7 @@ class CLicenceInfo(Base1):
     STATE = Column(String(15))
     STATEDATE = Column(DateTime)
 
-    baseInfo = relationship("BaseInfo", backref=backref('licenceInfoRel', order_by=COMPANY_ID, cascade="all, delete-orphan"))
+    # baseInfo = relationship("BaseInfo", backref=backref('licenceInfoRel', order_by=COMPANY_ID, cascade="all, delete-orphan"))
 
     def __repr__(self):
         return "id: {0}, companyId: {1}, administrativeLicensingName: {2}, administrativeLicensingContext: {3}, administrativeLicensingNumber: {4}, " \
@@ -735,7 +735,7 @@ class CMembers(Base1):
     STATEDATE = Column(DateTime)
 
 
-    baseInfo = relationship("BaseInfo", backref=backref('membersRel', order_by=COMPANY_ID, cascade="all, delete-orphan"))
+    # baseInfo = relationship("BaseInfo", backref=backref('membersRel', order_by=COMPANY_ID, cascade="all, delete-orphan"))
 
     def __repr__(self):
         return "id: {0}, companyId: {1}, name: {2}, position: {3}, updtTime: {4}".format(self.ID, self.COMPANY_ID,
@@ -762,7 +762,7 @@ class COwingTax(Base1):
     STATE = Column(String(15))
     STATEDATE = Column(DateTime)
 
-    baseInfo = relationship("BaseInfo", backref=backref('owingTaxRel', order_by=COMPANY_ID, cascade="all, delete-orphan"))
+    # baseInfo = relationship("BaseInfo", backref=backref('owingTaxRel', order_by=COMPANY_ID, cascade="all, delete-orphan"))
 
     def __repr__(self):
         return "id: {0}, companyId: {1}, publicDate: {2}, taxpayerNumber: {3}, taxType: {4}, taxArrears: {5}, over: {6}, office: {7}, updtTime: {8}".format(
@@ -794,7 +794,7 @@ class CPatent(Base1):
     STATE = Column(String(15))
     STATEDATE = Column(DateTime)
 
-    baseInfo = relationship("BaseInfo", backref=backref('patentRel', order_by=COMPANY_ID, cascade="all, delete-orphan"))
+    # baseInfo = relationship("BaseInfo", backref=backref('patentRel', order_by=COMPANY_ID, cascade="all, delete-orphan"))
 
     def __repr__(self):
         return "id: {0}, companyId: {1}, applyNumber: {2}, summary: {3}, inventor: {4}, invention: {5}, applyPerson: {6}, applyDate: {7}, applyPublicDate: {8}, agency: {9}, agent: {10}, address: {11}, updtTime: {12}".format(
@@ -845,7 +845,7 @@ class CProduct(Base1):
     STATE = Column(String(15))
     STATEDATE = Column(DateTime)
 
-    baseInfo = relationship("BaseInfo", backref=backref('productRel', order_by=COMPANY_ID, cascade="all, delete-orphan"))
+    # baseInfo = relationship("BaseInfo", backref=backref('productRel', order_by=COMPANY_ID, cascade="all, delete-orphan"))
 
     def __repr__(self):
         return "id: {0}, companyId: {1}, name: {2}, classes: {3}, brief: {4}, icon: {5}, productType: {6}, updtTime: {7}".format(
@@ -872,7 +872,7 @@ class CPunishment(Base1):
     STATE = Column(String(15))
     STATEDATE = Column(DateTime)
 
-    baseInfo = relationship("BaseInfo", backref=backref('punishmentRel', order_by=COMPANY_ID, cascade="all, delete-orphan"))
+    # baseInfo = relationship("BaseInfo", backref=backref('punishmentRel', order_by=COMPANY_ID, cascade="all, delete-orphan"))
 
     def __repr__(self):
         return "id: {0}, companyId: {1}, decisionNumber: {2}, punishType: {3}, punishText: {4}, decisionDate: {5}, decisionOffice: {6}, updtTime: {7}".format(
@@ -930,7 +930,7 @@ class CShareholder(Base1):
     STATE = Column(String(15))
     STATEDATE = Column(DateTime)
 
-    baseInfo = relationship("BaseInfo", backref=backref('shareholderRel', order_by=COMPANY_ID, cascade="all, delete-orphan"))
+    # baseInfo = relationship("BaseInfo", backref=backref('shareholderRel', order_by=COMPANY_ID, cascade="all, delete-orphan"))
 
     def __repr__(self):
         return "id: {0}, companyId: {1}, shareholder: {2}, subscribedCapital: {3}, subscribedDate: {4}, " \
@@ -990,7 +990,7 @@ class CTmInfo(Base1):
     STATE = Column(String(15))
     STATEDATE = Column(DateTime)
 
-    baseInfo = relationship("BaseInfo", backref=backref('tmInfoRel', order_by=COMPANY_ID, cascade="all, delete-orphan"))
+    # baseInfo = relationship("BaseInfo", backref=backref('tmInfoRel', order_by=COMPANY_ID, cascade="all, delete-orphan"))
 
     def __repr__(self):
         return "id: {0}, companyId: {1}, trademarkPic: {2}, trademarkName: {3}, registerNumber: {4}, serviceList: {5}, state: {6}, applyDate: {7}, trademarkType: {8}, updtTime: {9}".format(
@@ -1048,7 +1048,7 @@ class CWebsiteInfo(Base1):
     STATE = Column(String(15))
     STATEDATE = Column(DateTime)
 
-    baseInfo = relationship("BaseInfo", backref=backref('websiteInfoRel', order_by=COMPANY_ID, cascade="all, delete-orphan"))
+    # baseInfo = relationship("BaseInfo", backref=backref('websiteInfoRel', order_by=COMPANY_ID, cascade="all, delete-orphan"))
 
     def __repr__(self):
         return "id: {0}, companyId: {1}, webHome: {2}, webName: {3}, caseNumber: {4}, auditDate: {5}, domainName: {6}, companyType: {7}, updtTime:{8}".format(
@@ -1108,7 +1108,7 @@ class CYearReport(Base1):
     STATEDATE = Column(DateTime)
 
 
-    baseInfo = relationship("BaseInfo", backref=backref('yearReportRel', order_by=COMPANY_ID, cascade="all, delete-orphan"))
+    # baseInfo = relationship("BaseInfo", backref=backref('yearReportRel', order_by=COMPANY_ID, cascade="all, delete-orphan"))
 
     def __repr__(self):
         return "id: {0}, companyId: {1}, year: {2}, capitalTotal: {3}, mainTotal: {4}, ownerTotal: {5}, netProfit: {6}, " \
