@@ -21,10 +21,10 @@ class DBOperation(object):
         self.charset = 'utf-8'
         self.database = 'db_source'
 
-    def UpadteState(self,batchId):
+    def UpadteState(self,batchId,comName):
         db = pymysql.connect(host='192.168.2.23', user='ch_data_source', passwd='123456', db='db_source', port=7865)
         cursor = db.cursor()
-        sql = "UPDATE batch_info SET IMP_STATE = '10A' WHERE BATCH_ID = '{}'".format(batchId)
+        sql = "UPDATE batch_info SET IMP_STATE = '10A',COMPANY_NAME = '{}' WHERE BATCH_ID = '{}'".format(comName,batchId)
         cursor.execute(sql)
         db.commit()
         db.close()
@@ -39,9 +39,9 @@ class DBOperation(object):
         try:
             cursor = db.cursor()
             cursor.execute(sql)
-            cid = cursor.fetchone()[0]
+            cid = cursor.fetchall()[-1][0]
             db.commit()
-            cursor.close()
+            # cursor.close()
             db.close()
             return cid
         except RequestException as err:
@@ -71,14 +71,12 @@ class DBOperation(object):
                 c_basic_info_company_id)
             cursor.execute(sql)
             res = cursor.fetchone()
-
+            db.commit()
+            db.close()
             data = (batchId,res[0],c_basic_info_company_id,'10M',datetime.now())
             sql_2 = "insert into batch_info(BATCH_ID,COMPANY_NAME, COMPANY_ID, IMP_STATE, BATCH_DT)values(%s,%s,%s,%s,%s)"
             cursor_2.execute(sql_2, data)
-
-            db.commit()
             db_2.commit()
-            db.close()
             db_2.close()
             return res
         else:
@@ -93,6 +91,7 @@ class DBOperation(object):
             db.commit()
             db.close()
         except RequestException as err:
+            db.rollback()
             print(err)
 
     def makePlaceholder(self,data):

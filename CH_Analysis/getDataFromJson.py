@@ -428,7 +428,7 @@ def getopennotice(dataList,cid,batchId):
         for j in defendantlist:
             if j != "-":
                 defendant = defendant + j + " ; "
-        dataReady = [cid,hearingDate,caseNo,caseReason,court,tribunal,plaintifflist,defendant,MD5VALUE,batchId,IMP_STATE,CHANGE_STATE,CHANGE_STATE_DT]
+        dataReady = [cid,hearingDate,caseNo,caseReason,court,tribunal,plaintiff,defendant,MD5VALUE,batchId,IMP_STATE,CHANGE_STATE,CHANGE_STATE_DT]
         DB.insertOpennotice(args=dataReady)
 
 def getjudicialauction(dataList,cid,batchId):

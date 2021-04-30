@@ -48,7 +48,7 @@ if __name__ == '__main__':
     QUEUE_NAME = 'QCC_Na'  # 声明爬虫的队列名 例如天眼查（TYC），如此队列是需要整合的队列 队列名该声明为 XXX_Na
     QUEUE_NAME_QCC = 'qcc_req'
 
-    THREAD_NUM = 1 # 声明该爬虫的线程数量
+    THREAD_NUM = 4 # 声明该爬虫的线程数量
 
     # 如果需要申明队列长度(可选)
     QUEUE_LIMIT = 20

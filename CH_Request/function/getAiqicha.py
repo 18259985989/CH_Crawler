@@ -76,7 +76,7 @@ class getAiqicha(object):
                 else:
                     if resp.status_code != 200:
                         self.errCount += 1
-                        print("请求公司Id时状态码不为200.")
+                        print("请求公司Id时状态码不为200.{}".format(resp.status_code))
                     else:
                         resList = re.findall(r'"result":(.*?)};',resp.text,re.S)
                         if len(resList)!= 0:
@@ -91,7 +91,11 @@ class getAiqicha(object):
                                         print(pid)
                                         return pid
                                     else:
-                                        continue
+                                        newEntName = i.get("titleName")
+                                        self.comName = newEntName
+                                        pid = i.get("pid")
+                                        print(pid)
+                                        return pid
                                 print("查找到的公司与输入公司名不符")
                                 return self.flag
                             else:
@@ -135,7 +139,6 @@ class getAiqicha(object):
 
         resJson = reqContent(url=url,headers=headers,payload=payload).reqJson()
         if resJson != self.flag:
-
             self.newTabs =  resJson.get("data").get("basicData").get("newTabs") #该公司所拥有的数据列表
             getBaseData(Json=resJson,batchId=self.batchId) #不论如何先插入基本数据信息
             self.cid = self.DB.selectComId(comName=self.comName) #获取comId
@@ -161,6 +164,7 @@ class getAiqicha(object):
 
         else:
             print("获取到resJson为空或有异常")
+            return self.flag
 
 
     def reqRiskInfo(self,pid):
@@ -270,25 +274,27 @@ class getAiqicha(object):
 
     def run(self):
         pid = self.reqCompanyId()
-        self.reqBaseInfo(pid=pid)  #基本信息及其他基础信息
-        funDict = {
-            "risk":self.reqRiskInfo,
-            "certRecord":self.reqKnowledgeInfo,
-            "companyDevelop":self.reqComDevelopInfo,
-            "operatingCondition":self.reqManagerInfo,
-        }
-        for obj in self.newTabs:
-            id = obj.get("id")
-            total = obj.get("total")
-            if id in funDict.keys():
-                if total == 0 or total == "":
-                    continue
-                else:
-                    funDict.get(id)(pid=pid)
-            else:
-                pass
-        self.DB.UpadteState(batchId=self.batchId)
-        RabbitMQ().sendMessage(queueName=RabbitMQQueueEnum.QUEUE_DATA_READY,
-                               message=json.dumps(self.dictInfo))
-        print("发送成功")
+        if pid != self.flag:
+            res = self.reqBaseInfo(pid=pid)  #基本信息及其他基础信息
+            if res != self.flag:
+                funDict = {
+                    "risk":self.reqRiskInfo,
+                    "certRecord":self.reqKnowledgeInfo,
+                    "companyDevelop":self.reqComDevelopInfo,
+                    "operatingCondition":self.reqManagerInfo,
+                }
+                for obj in self.newTabs:
+                    id = obj.get("id")
+                    total = obj.get("total")
+                    if id in funDict.keys():
+                        if total == 0 or total == "":
+                            continue
+                        else:
+                            funDict.get(id)(pid=pid)
+                    else:
+                        pass
+                self.DB.UpadteState(batchId=self.batchId,comName=self.comName)
+                RabbitMQ().sendMessage(queueName=RabbitMQQueueEnum.QUEUE_DATA_READY,
+                                       message=json.dumps(self.dictInfo))
+                print("发送成功")
 

@@ -34,8 +34,14 @@ def getBaseData(Json,batchId):
     scope = basicData.get("scope") #经营范围
     regAddr = basicData.get("regAddr") #公司地址
     legalPerson = basicData.get("legalPerson") #法人代表
-    startDate = datetime.strptime(basicData.get("startDate"),"%Y-%m-%d") #成立时间
-    annualDate = datetime.strptime(basicData.get("annualDate"),"%Y-%m-%d") #核准日期
+    try:
+        startDate = datetime.strptime(basicData.get("startDate"),"%Y-%m-%d") #成立时间
+    except:
+        startDate = datetime.strptime("9999-12-31", "%Y-%m-%d")
+    try:
+        annualDate = datetime.strptime(basicData.get("annualDate"),"%Y-%m-%d") #核准日期
+    except:
+        annualDate = datetime.strptime("9999-12-31", "%Y-%m-%d")  # 核准日期
     regCapital = basicData.get("regCapital") #注册资本
     industry = basicData.get("industry") #所属行业
     telephone = basicData.get("telephone") #公司电话

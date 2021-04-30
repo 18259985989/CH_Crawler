@@ -14,8 +14,8 @@ from threading import Timer
 class proxyPool(object):
 
     def __init__(self):
-        self.orderId = '911819753998338' #订单号
-        self.getNums = 50    #可选大小 1-100(为了保证Ip质量一般不取太大，取太大很多都是重复的)
+        self.orderId = '921967806545863' #订单号
+        self.getNums = 30    #可选大小 1-100(为了保证Ip质量一般不取太大，取太大很多都是重复的)
         self.flag = "Fail"
 
     def reqProxy(self):
@@ -24,7 +24,8 @@ class proxyPool(object):
         :return:
         """
         # task = Timer(5, self.reqProxy)
-        url = 'http://dev.kdlapi.com/api/getproxy/'
+        # url = 'http://dev.kdlapi.com/api/getproxy/'
+        url = 'http://svip.kdlapi.com/api/getproxy/'
         payload = {
             "orderid":self.orderId,
             "num":self.getNums,
@@ -33,7 +34,7 @@ class proxyPool(object):
             "sep":"1",
             "an_ha":"1",
             "method":"1",
-            "quality":"1",
+            "quality":"2", #svip为2  vip为1
         }
         headers = {
             "User-Agent": "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.114 Safari/537.36",
@@ -84,4 +85,3 @@ class proxyPool(object):
 if __name__ == '__main__':
     p = proxyPool()
     p.reqProxy()
-
